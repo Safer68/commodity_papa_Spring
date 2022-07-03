@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/table.css" th:href="@{/css/table.css}" rel="stylesheet" />
+    <title>Horses</title>
+</head>
+<body>
+<div th:switch="${horses}">
+    <h2 th:case="null">No horses found!</h2>
+    <div th:case="*">
+        <h2>Лошади</h2>
+        <table id="customers">
+            <thead>
+            <tr>
+                <th>№</th>
+                <th>Масть</th>
+                <th>Возраст</th>
+                <th>Цена</th>
+                <th colspan="2"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="horse : ${horses}">
+                <td th:text="${horse.id}"></td>
+                <td th:text="${horse.type}"></td>
+                <td th:text="${horse.age}"></td>
+                <td th:text="${horse.price}"></td>
+                <td><a th:href="@{/{id}(id=${horse.getId()})}">Редактировать</a></td>
+                <td>
+                    <form th:method="DELETE" th:action="@{/{id}(id=${horse.getId()})}">
+                        <input type="submit" value="Удалить"/>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <p><a href="/horse-create">Добавить лошадь</a></p>
+</div>
+</body>
+</html>

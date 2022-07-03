@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+    <changeSet id="1" author="Nenartovich" failOnError="true">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--01-initial-schema-client.sql"/>
+    </changeSet>
+    <changeSet id="2" author="Nenartovich" failOnError="true">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--02-initial-schema-delivery.sql"/>
+    </changeSet>
+    <changeSet id="3" author="Nenartovich" failOnError="true">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--03-initial-schema-manager.sql"/>
+    </changeSet>
+    <changeSet id="4" author="Nenartovich" failOnError="true">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--04-initial-schema-orders.sql"/>
+    </changeSet>
+    <changeSet id="5" author="Nenartovich" failOnError="true">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--05-initial-schema-product.sql"/>
+    </changeSet>
+    <changeSet id="6" author="Nenartovich" failOnError="true">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--06-initial-schema-order_products.sql"/>
+    </changeSet>
+    <changeSet id="7" author="Nenartovich" failOnError="true" context="test">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--07-test-data.sql"/>
+    </changeSet>
+    <changeSet id="8" author="Nenartovich" failOnError="true" context="test">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_05_30--01-change-schema-orders.sql"/>
+    </changeSet>
+</databaseChangeLog>
