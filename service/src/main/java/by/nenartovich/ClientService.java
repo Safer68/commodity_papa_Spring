@@ -14,4 +14,5 @@ public interface ClientService {
     void updateClient(ClientDto clientDto);
 
     List<OrderDto> getClientOrders(Long clientId);
+    ClientDto save(ClientDto clientDto);
 }

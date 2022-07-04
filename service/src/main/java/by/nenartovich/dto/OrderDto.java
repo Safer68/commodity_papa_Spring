@@ -1,18 +1,22 @@
 package by.nenartovich.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderDto implements Serializable {
-    private final Long id;
-    private final Date dateChange;
-    private final boolean status;
-    private final List<ProductDto> products;
-    private final Double price;
-    private final ClientDto client;
-    private final DeliveryDto delivery;
+    private  Long id;
+    private  Date dateChange;
+    private  boolean status;
+    private List<ProductDto> products;
+    private  Double price;
+    private  ClientDto client;
+    private  DeliveryDto delivery;
 }

@@ -48,4 +48,10 @@ public class ClientServiceImpl implements ClientService {
                 .map(orderMapper::orderToOrderDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ClientDto save(ClientDto clientDto) {
+        return clientMapper
+                .clientToClientDto(clientRepository.save(clientMapper.clientDtoToClient(clientDto)));
+    }
 }
