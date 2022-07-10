@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="partials/head :: content"/>
+<body>
+<div class="g-navigation" th:insert="partials/navigation :: content"/>
+<div class="g-container">
+    <main class="g-main container-fluid">
+        <div class="d-flex bd-highlight mb-3">
+            <div class="p-2 bd-highlight"><h2>Новый заказ</h2></div>
+            <div class="ml-auto p-2 bd-highlight">
+                <a class="btn btn-outline-primary"
+                   href="/manager/orders" role="button">
+                    <i class="col-1 bi bi-arrow-90deg-left"> Назад</i>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <section class="g-section">
+                    <form th:method="POST" th:action="@{/manager/orders}" onsubmit="return validateForm()">
+                        <h4>Клиент</h4>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Фамилия<br>
+                                <input class="form-control" type="text" th:field="*{client.surname}" name="type"
+                                       placeholder="Фамилия"></label>
+                            <label class="col-sm-2 col-form-label">Имя<br>
+                                <input class="form-control" type="text" th:field="*{client.name}" name="type"
+                                       placeholder="Имя"></label>
+                            <label class="col-sm-3 col-form-label">Отчество<br>
+                                <input class="form-control" type="text" th:field="*{client.patronymic}" name="type"
+                                       placeholder="Отчество"></label>
+                            <label class="col-sm-2 col-form-label">Телефон<br>
+                                <input class="form-control" type="tel" th:field="*{client.phoneNumber}" name="type"
+                                       placeholder="Phone"></label>
+                            <label class="col-sm-2 col-form-label">Эл. адрес<br>
+                                <input class="form-control" type="email" th:field="*{client.phoneNumber}" name="type"
+                                       placeholder="email"></label>
+                        </div>
+                        <h4>Доставка <span class="g-main__subtitle">(
+                            <td>
+                                <select th:field="*{order.delivery.id}">
+                                    <option th:each="deliver : ${deliverys}" th:value="${deliver.id}"
+                                            th:text="${deliver.name}">
+                                    </option>
+                                </select>
+                            </td>
+                            )</span></h4>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Город<br>
+                                <input class="form-control" type="text" th:field="*{address.city}" name="type"
+                                       placeholder="Город"></label>
+                            <label class="col-sm-2 col-form-label">Ул.<br>
+                                <input class="form-control" type="text" th:field="*{address.street}" name="type"
+                                       placeholder="Улица"></label>
+                            <label class="col-sm-3 col-form-label">Дом.<br>
+                                <input type="text" class="form-control" value="-"></label>
+                            <label class="col-sm-2 col-form-label">Корп.<br>
+                                <input type="text" class="form-control" value="-"></label>
+                            <label class="col-sm-2 col-form-label">Индекс<br>
+                                <input class="form-control" type="text" th:field="*{address.postalCode}" name="type"
+                                       placeholder="Индекс"></label>
+                        </div>
+                        <h4>Товар</h4>
+                        <table class="table">
+                            <thead class="thead">
+                            <tr>
+                                <th scope="col">№</th>
+                                <th scope="col">Описание</th>
+                                <th scope="col">Цена</th>
+                                <th scope="col">Категория</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <div th:each="product: ${products}">
+                                <tr>
+                                    <td th:text="${product.id}">№</td>
+                                    <td th:text="${product.description}">description</td>
+                                    <td th:text="${product.price}">price</td>
+                                    <td th:text="${product.section}">section</td>
+                                    <td><input type="checkbox" name="answerList" th:value="${product.getId()}">
+                                        <!--<input type="hidden" name="quizId" th:value="${quizId}">
+                                        <input type="hidden" name="questionId" th:value="${question.getId()}"> --><!-- МЕНЯЕМ ТОЛЬКО ВОТ ТУТ-->
+                                    </td>
+                                    <!--th:field="*{customer.phoneNumbers[0].phoneNumber}" name="phoneNumber" th:placeholder="phoneNumber"
+                                    <td><input type="checkbox" name="active"
+                                               th:checked="*{order.products[0].id}"name="product" th:placeholder="product" ></td>-->
+                                </tr>
+                            </div>
+                            </tbody>
+                        </table>
+                        <input type="submit" value="Сохранить">
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+<footer class="g-footer text-right">
+    <span class="e-site-emphasize">Commodity Papa</span>
+</footer>
+<script th:src="@{/js/custom.js}"></script>
+<div class="modal fade" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="${pageContext.request.contextPath}/managerPage" method="post">
+                <div class="modal-body">
+                    Name <input value="${UserName.name}" name="newName" class='lf--input'
+                                type="Name"><br><br>
+                    <input type="hidden" name="update" value="update"/>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

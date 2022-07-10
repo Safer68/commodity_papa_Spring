@@ -6,8 +6,13 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface ManagerMapper {
-    Manager managerDtoToManager(ManagerDto managerDto);
 
+   /* @Mappings({*/
+            @Mapping(ignore = true, target = "password")
+           /* @Mapping(ignore = true, target = "userName"),
+            @Mapping(ignore = true, target = "active")
+    })*/
+    Manager managerDtoToManager(ManagerDto managerDto);
     ManagerDto managerToManagerDto(Manager manager);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

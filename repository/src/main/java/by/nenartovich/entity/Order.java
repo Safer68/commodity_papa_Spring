@@ -23,7 +23,7 @@ public class Order {
     private Long id;
 
     @Column(name = "date_of_creation")
-    private final Date dateCreate = new Date();
+    private Date dateCreate = new Date();
 
     @Column(name = "date_of_change")
     @Builder.Default
@@ -43,11 +43,11 @@ public class Order {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "manager_id")
     private Manager manager;
 

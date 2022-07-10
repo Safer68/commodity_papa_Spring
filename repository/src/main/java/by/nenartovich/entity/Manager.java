@@ -1,9 +1,11 @@
 package by.nenartovich.entity;
 
-import by.nenartovich.Role;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -22,16 +24,23 @@ public class Manager {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "user_name")
+    private String userName;
+
     @Column(name = "password")
     private String password;
 
     @Column(name = "active")
     private boolean active;
 
-    @ElementCollection(targetClass = Role.class,fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
     @OneToMany(mappedBy = "manager", orphanRemoval = true)
-    private Set<Order> orders = new java.util.LinkedHashSet<>();
+    private List<Order> orders = new ArrayList<>();
 }
