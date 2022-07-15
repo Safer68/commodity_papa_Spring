@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,9 +21,9 @@ import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/manager")
-@SessionAttributes({"person", "nam", "filter"})
-public class ManagerController {
+@RequestMapping("/")
+/*@SessionAttributes({"person", "nam", "filter"})*/
+public class CatalogController {
 
     private final ManagerService managerService;
     private final OrderService orderService;
@@ -34,14 +33,23 @@ public class ManagerController {
     private final ClientRepository clientRepository;
     private final Basket basket;
 
-    @GetMapping("/orders")
+
+    @GetMapping("/catalog")
+    public String getOrders(){
+
+        return "produkt";
+
+    }
+
+
+    /*@GetMapping("/orders")
     public String getOrders(@ModelAttribute("nam") Par par,
                             @ModelAttribute("filter") OrderFilter orderFilter,
                             @ModelAttribute("person") ManagerDto managerDto,
                             Model model) throws ParseException {
 
         System.out.println(par);
-       /* if (par.getDateCreate2() != null) {
+       *//* if (par.getDateCreate2() != null) {
             SimpleDateFormat format = new SimpleDateFormat();
             format.applyPattern("yyyy-MM-dd");
             try {
@@ -52,7 +60,7 @@ public class ManagerController {
                 throw new RuntimeException(e);
             }
 
-        }*/
+        }*//*
         orderFilter.setManagerDto(managerDto);
         System.out.println(orderFilter);
         Page<OrderDto> page = managerService.findAllPaginated(orderFilter, par);
@@ -62,24 +70,24 @@ public class ManagerController {
         return "/manager/orders";
     }
 
-    /*@GetMapping("/orders/{pageNumber}")
+    *//*@GetMapping("/orders/{pageNumber}")
     public String index(@ModelAttribute("nam") Par par, @ModelAttribute("filter") OrderFilter orderFilter,
-            *//*@PathVariable(value = "pageNumber") int pageNumber,
-                        @RequestParam("sortDir") String sortDir,*//* Model model, HttpSession session) {
-     *//*OrderFilter orderFilter = OrderFilter.builder()
+            *//**//*@PathVariable(value = "pageNumber") int pageNumber,
+                        @RequestParam("sortDir") String sortDir,*//**//* Model model, HttpSession session) {
+     *//**//*OrderFilter orderFilter = OrderFilter.builder()
                 //.dateCreate(date)
         //.dateCreate(orderService.findById(1L).getDateChange())
                  .client(clientRepository.getReferenceById(1L))
-                .build();*//*
-     *//* OrderFilter orderFilter2 = (OrderFilter) session.getAttribute("filter");
+                .build();*//**//*
+     *//**//* OrderFilter orderFilter2 = (OrderFilter) session.getAttribute("filter");
 
         System.out.println(orderFilter2);
-        System.out.println(orderFilter);*//*
+        System.out.println(orderFilter);*//**//*
 
         //Par par = (Par) session.getAttribute("nam");
 
         System.out.println(par);
-        Page<OrderDto> page = managerService.findAllPaginated(orderFilter, par.getPageNumber() *//*pageNumber*//*, par.getPageSize(), par.getSortField(), par.getSortDir() *//*sortDir*//*);
+        Page<OrderDto> page = managerService.findAllPaginated(orderFilter, par.getPageNumber() *//**//*pageNumber*//**//*, par.getPageSize(), par.getSortField(), par.getSortDir() *//**//*sortDir*//**//*);
         par.setGetTotalPages(page.getTotalPages());
         par.setGetTotalElements(page.getTotalElements());
         List<OrderDto> orders = page.getContent();
@@ -91,7 +99,7 @@ public class ManagerController {
         model.addAttribute("orders", page);
         //model.addAttribute("manager", managerName);
         return "/manager/orders";
-    }*/
+    }*//*
 
 
     @GetMapping("/order/new")
@@ -148,5 +156,5 @@ public class ManagerController {
     @ModelAttribute("filter")
     public OrderFilter populateFilter() {
         return OrderFilter.builder().build();
-    }
+    }*/
 }

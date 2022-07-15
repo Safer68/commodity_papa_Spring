@@ -21,4 +21,6 @@ public interface ManagerService {
     List<OrderDto> getManagerOrders (String managerName);
     Page<OrderDto> findPaginated(Pageable pageable, Long managerId);
     Page<OrderDto> findAllPaginated(int pageNumber, String sortField, String sortDirection, Long managerId);
+    Page<OrderDto> findAllPaginated(OrderFilter orderFilter, Par par);
+
 }

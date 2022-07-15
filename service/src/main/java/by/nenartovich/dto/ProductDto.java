@@ -1,14 +1,18 @@
 package by.nenartovich.dto;
 
 import by.nenartovich.Section;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductDto implements Serializable {
-    private final Long id;
-    private final String description;
-    private final Double price;
-    private final Section section;
+    private Long id;
+    private String description;
+    private Double price;
+    private Section section;
 }

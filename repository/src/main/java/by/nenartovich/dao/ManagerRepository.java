@@ -15,6 +15,6 @@ public interface ManagerRepository extends JpaRepository<Manager, Long> {
     List<Order> getManagerOrders(Long managerId);
     @Query("select e.orders from Manager e where e.userName=?1")
     List<Order> getManagerOrders (String managerName);
-
-    Page<Manager> findAll(Pageable paged);
+    @Query("select e.orders from Manager e where e.id=?2")
+    Page<Order> findAll(Pageable paged,Long managerId);
 }
