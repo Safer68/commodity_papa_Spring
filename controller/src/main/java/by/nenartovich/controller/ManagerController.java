@@ -10,20 +10,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/manager")
-@SessionAttributes({"person", "nam", "filter"})
+@RequestMapping
+/*@SessionAttributes({*//*"person",*//* "nam", "filter"})*/
 public class ManagerController {
 
     private final ManagerService managerService;
@@ -33,26 +31,18 @@ public class ManagerController {
     private final ProductService productService;
     private final ClientRepository clientRepository;
     private final Basket basket;
-
-    @GetMapping("/orders")
+    @GetMapping("/manager")
+    public String getOrders( /*@ModelAttribute("person") ManagerDto managerDto,*/Principal principal){
+        /*managerDto = managerService.findByName(principal.getName());*/
+        System.out.println(/*managerDto + */"dsfdf----------------------------------------------------------------------------------");
+        return "redirect:/manager/orders";
+    }
+   /* @GetMapping("/orders")
     public String getOrders(@ModelAttribute("nam") Par par,
                             @ModelAttribute("filter") OrderFilter orderFilter,
                             @ModelAttribute("person") ManagerDto managerDto,
                             Model model) throws ParseException {
 
-        System.out.println(par);
-       /* if (par.getDateCreate2() != null) {
-            SimpleDateFormat format = new SimpleDateFormat();
-            format.applyPattern("yyyy-MM-dd");
-            try {
-                Date docDate = format.parse(par.getDateCreate2());
-                System.out.println(docDate);
-                orderFilter.setDateCreate(docDate);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-
-        }*/
         orderFilter.setManagerDto(managerDto);
         System.out.println(orderFilter);
         Page<OrderDto> page = managerService.findAllPaginated(orderFilter, par);
@@ -60,7 +50,7 @@ public class ManagerController {
         par.setGetTotalElements(page.getTotalElements());
         model.addAttribute("orders", page);
         return "/manager/orders";
-    }
+    }*/
 
     /*@GetMapping("/orders/{pageNumber}")
     public String index(@ModelAttribute("nam") Par par, @ModelAttribute("filter") OrderFilter orderFilter,
@@ -109,12 +99,12 @@ public class ManagerController {
 
     @PostMapping("/orders")
     public String create(@ModelAttribute("order") OrderDto orderDto,
-                         @RequestParam("answerList") Long[] answerList,
+                         @RequestParam("answerList") List<Long> answerList,
                          @ModelAttribute("address") AddressDto addressDto,
                          @ModelAttribute("client") ClientDto clientDto, Principal principal) {
-        List<Long> list = new ArrayList<>();
-        Collections.addAll(list, answerList);
-        List<ProductDto> productDtos = list.stream().map(productService::findById).collect(Collectors.toList());
+        List<ProductDto> productDtos = answerList.stream()
+                .map(productService::findById)
+                .collect(toList());
         ManagerDto managerDto = managerService.findByName(principal.getName());
         clientDto.setAddress(addressDto);
         orderDto.setClient(clientService.save(clientDto));
@@ -135,12 +125,12 @@ public class ManagerController {
         }
     }
 
-    @ModelAttribute("person")
+   /* @ModelAttribute("person")
     public ManagerDto populatePerson(Principal principal) {
         return managerService.findByName(principal.getName());
-    }
+    }*/
 
-    @ModelAttribute("nam")
+   /* @ModelAttribute("nam")
     public Par populateName() {
         return Par.builder().build();
     }
@@ -148,5 +138,5 @@ public class ManagerController {
     @ModelAttribute("filter")
     public OrderFilter populateFilter() {
         return OrderFilter.builder().build();
-    }
+    }*/
 }

@@ -1,7 +1,9 @@
 package by.nenartovich.impl;
 
 import by.nenartovich.dao.ManagerRepository;
+import by.nenartovich.dao.UserRepository;
 import by.nenartovich.entity.Manager;
+import by.nenartovich.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,11 +14,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final ManagerRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Manager user = userRepository.findByUserName(username);
+        User user = userRepository.findByUserName(username);
         if (user == null) {
             throw new UsernameNotFoundException("Could not find user " + username + "!");
         }

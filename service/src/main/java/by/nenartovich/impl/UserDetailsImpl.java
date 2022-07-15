@@ -1,6 +1,7 @@
 package by.nenartovich.impl;
 
 import by.nenartovich.entity.Manager;
+import by.nenartovich.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private final Manager user;
+    private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

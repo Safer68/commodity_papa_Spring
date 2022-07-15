@@ -122,8 +122,9 @@ public class ManagerServiceImpl implements ManagerService {
                         .and(Optional.ofNullable(managerMapper.managerDtoToManager(orderFilter.getManagerDto()))
                                 .map(SpecificationOrder::getOrderByManagerSpec)
                                 .orElse(null));
-        Sort sort = par.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(par.getSortField()).ascending() :
-                Sort.by(par.getSortField()).descending();
+        Sort sort = par.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
+                ? Sort.by(par.getSortField()).ascending()
+                : Sort.by(par.getSortField()).descending();
         Pageable paged = PageRequest.of(par.getPageNumber() - 1, par.getPageSize(), sort);
         return orderRepository.findAll(orderSpecification, paged).map(orderMapper::orderToOrderDto);
     }
