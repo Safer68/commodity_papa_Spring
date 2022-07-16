@@ -24,9 +24,11 @@ import java.util.Set;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/")
+@SessionAttributes({"person", "nam", "filter"})
 public class IndexController {
 
     private final UserRepository userRepository;
+    private final ManagerService managerService;
 
     @GetMapping("/index")
     public String index(Principal principal) {
@@ -34,9 +36,24 @@ public class IndexController {
 
         for (Role role : roles) {
             if (Objects.equals(role.getName(), "ADMIN")) {
-                return "redirect:/manager";
+                return "redirect:/manager/orders";
             }
         }
         return "login";
+    }
+    @ModelAttribute("person")
+    public ManagerDto populatePerson(Principal principal) {
+       /* return managerService.findByName(principal.getName());*/
+        return ManagerDto.builder().build();
+    }
+
+    @ModelAttribute("nam")
+    public Par populateName() {
+        return Par.builder().build();
+    }
+
+    @ModelAttribute("filter")
+    public OrderFilter populateFilter() {
+        return OrderFilter.builder().build();
     }
 }

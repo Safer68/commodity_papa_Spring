@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/index").permitAll()
                 .and()
                 .formLogin().permitAll()
-                .defaultSuccessUrl("/manager/orders", true)
+                .defaultSuccessUrl("/index", true)
                 .and()
                 .formLogin()
                 .loginPage("/login")

@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
 @Controller
 @AllArgsConstructor
 @RequestMapping
-@SessionAttributes({"person", "nam", "filter"})
+/*@SessionAttributes({"person", "nam", "filter"})*/
 public class ManagerController {
 
     private final ManagerService managerService;
@@ -48,7 +48,7 @@ public class ManagerController {
                             @ModelAttribute("person") ManagerDto managerDto,
                             Model model) throws ParseException {
 
-        orderFilter.setManagerDto(managerDto);
+        //orderFilter.setManagerDto(managerDto);
         System.out.println(orderFilter);
         Page<OrderDto> page = managerService.findAllPaginated(orderFilter, par);
         par.setGetTotalPages(page.getTotalPages());
@@ -144,7 +144,7 @@ public class ManagerController {
      public OrderFilter populateFilter() {
          return OrderFilter.builder().build();
      }*/
-    @ModelAttribute("person")
+    /*@ModelAttribute("person")
     public ManagerDto populatePerson(Principal principal) {
         return managerService.findByName(principal.getName());
         //return ManagerDto.builder().build();
@@ -158,5 +158,5 @@ public class ManagerController {
     @ModelAttribute("filter")
     public OrderFilter populateFilter() {
         return OrderFilter.builder().build();
-    }
+    }*/
 }
