@@ -9,18 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/manager")
+@RequestMapping("/client")
 @SessionAttributes({"person", "parameter", "filter"})
-public class ManagerController {
+public class ClientController {
 
     private final ManagerService managerService;
     private final OrderService orderService;
@@ -31,12 +28,13 @@ public class ManagerController {
     @GetMapping
     public String getOrders(@ModelAttribute("parameter") Parameter parameter,
                             @ModelAttribute("filter") OrderFilter orderFilter,
-                            @ModelAttribute("person") ManagerDto managerDto) {
-        orderFilter.setManagerName(managerDto.getName());
-        return "redirect:/manager/orders";
+                            @ModelAttribute("person") ClientDto clientDto) {
+        System.out.println(clientDto);
+        orderFilter.setClientName(clientDto.getName());
+        return "redirect:/client/orders";
     }
 
-    @GetMapping("/order/new")
+    /*@GetMapping("/order/new")
     public String newOrder(Model model) {
         OrderDto orderDto = new OrderDto();
         ClientDto clientDto = new ClientDto();
@@ -47,9 +45,9 @@ public class ManagerController {
         model.addAttribute("deliverys", deliveryService.findAllDeliveryDto());
         model.addAttribute("products", productService.findAllProductDto());
         return "/manager/order-create";
-    }
+    }*/
 
-    @PostMapping("/orders")
+   /* @PostMapping("/orders")
     public String create(@ModelAttribute("order") OrderDto orderDto,
                          @RequestParam("answerList") List<Long> answerList,
                          @ModelAttribute("address") AddressDto addressDto,
@@ -64,11 +62,11 @@ public class ManagerController {
         orderDto.setManager(managerDto);
         orderService.save(orderDto);
         return "redirect:/manager/orders";
-    }
+    }*/
 
     @ModelAttribute("person")
-    public ManagerDto populatePerson(Principal principal) {
-        return managerService.findByName(principal.getName());
+    public ClientDto populatePerson(Principal principal) {
+        return clientService.findByName(principal.getName());
     }
 
     @ModelAttribute("parameter")

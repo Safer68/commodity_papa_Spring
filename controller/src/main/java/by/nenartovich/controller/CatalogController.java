@@ -2,48 +2,39 @@ package by.nenartovich.controller;
 
 
 import by.nenartovich.*;
-import by.nenartovich.dao.ClientRepository;
-import by.nenartovich.dto.*;
+import by.nenartovich.dto.ProductDto;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/")
-/*@SessionAttributes({"person", "nam", "filter"})*/
+@RequestMapping
+/*@SessionAttributes({"person", "parameter", "filter"})*/
 public class CatalogController {
 
-    private final ManagerService managerService;
-    private final OrderService orderService;
-    private final ClientService clientService;
-    private final DeliveryService deliveryService;
     private final ProductService productService;
-    private final ClientRepository clientRepository;
-    private final Basket basket;
 
+    @GetMapping("/manager/catalog")
+    public String getProducts(Model model){
+        List<ProductDto> productDtoList = productService.findAllProductDto();
+        model.addAttribute("products",productDtoList);
+        return "/manager/catalog";
 
-    @GetMapping("/catalog")
-    public String getOrders(){
-
-        return "produkt";
+    }
+    @GetMapping("/manager/product/new")
+    public String getProduct(/*Model model*/){
+       /* List<ProductDto> productDtoList = productService.findAllProductDto();
+        model.addAttribute("products",productDtoList);*/
+        return "/manager/product";
 
     }
 
-
     /*@GetMapping("/orders")
-    public String getOrders(@ModelAttribute("nam") Par par,
+    public String getOrders(@ModelAttribute("parameter") Par par,
                             @ModelAttribute("filter") OrderFilter orderFilter,
                             @ModelAttribute("person") ManagerDto managerDto,
                             Model model) throws ParseException {
@@ -71,7 +62,7 @@ public class CatalogController {
     }
 
     *//*@GetMapping("/orders/{pageNumber}")
-    public String index(@ModelAttribute("nam") Par par, @ModelAttribute("filter") OrderFilter orderFilter,
+    public String index(@ModelAttribute("parameter") Par par, @ModelAttribute("filter") OrderFilter orderFilter,
             *//**//*@PathVariable(value = "pageNumber") int pageNumber,
                         @RequestParam("sortDir") String sortDir,*//**//* Model model, HttpSession session) {
      *//**//*OrderFilter orderFilter = OrderFilter.builder()
@@ -84,7 +75,7 @@ public class CatalogController {
         System.out.println(orderFilter2);
         System.out.println(orderFilter);*//**//*
 
-        //Par par = (Par) session.getAttribute("nam");
+        //Par par = (Par) session.getAttribute("parameter");
 
         System.out.println(par);
         Page<OrderDto> page = managerService.findAllPaginated(orderFilter, par.getPageNumber() *//**//*pageNumber*//**//*, par.getPageSize(), par.getSortField(), par.getSortDir() *//**//*sortDir*//**//*);
@@ -148,7 +139,7 @@ public class CatalogController {
         return managerService.findByName(principal.getName());
     }
 
-    @ModelAttribute("nam")
+    @ModelAttribute("parameter")
     public Par populateName() {
         return Par.builder().build();
     }

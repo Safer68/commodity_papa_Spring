@@ -2,7 +2,7 @@
 <html lang="en">
 <head th:insert="partials/head :: content"></head>
 <body>
-<div class="g-navigation" th:insert="partials/navigation :: manager"></div>
+<div class="g-navigation" th:insert="partials/navigation :: client"></div>
 <div class="g-container">
     <main class="g-main container-fluid">
         <div class="d-flex bd-highlight mb-3">
@@ -12,7 +12,7 @@
 
             <div class="ml-auto p-2 bd-highlight">
                 <a class="btn btn-outline-primary"
-                   href="/manager/order/new" role="button">
+                   href="/client/order/new" role="button">
                     <i class="col-1 bi bi-plus-circle"> Создать</i>
                 </a>
             </div>
@@ -24,6 +24,9 @@
             <div class="form-group mx-sm-3 mb-2">
                 <input type="date" th:value="${filter.dateCreateBefore}" th:name="dateCreateBefore">
             </div>
+           <!-- <div class="form-group mx-sm-3 mb-2">
+                <input type="text" th:value="${filter.client}" th:name="client">
+            </div>-->
             <input type="hidden" th:value="1" th:name="pageNumber"/>
             <button type="submit" class="btn btn-primary mb-2">Фильтр</button>
         </form>
@@ -133,6 +136,7 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:if="${parameter.pageNumber > 1}">
+                    <li class="page-item" th:if="${parameter.pageNumber > 1}">
                         <form>
                             <input type="hidden" th:value="1" th:name="pageNumber"/>
                             <input class="page-link" type="submit" value="Первая">
@@ -142,7 +146,7 @@
                         <span class="page-link" aria-hidden="true">Первая</span>
                     </li>
                     <li class="page-item " th:if="${parameter.pageNumber > 1}">
-                        <form method="get" th:action="@{/manager/orders}">
+                        <form>
                             <input type="hidden" th:value="${parameter.pageNumber - 1}" th:name="pageNumber"/>
                             <input class="page-link" type="submit" value="&laquo;">
                         </form>
@@ -152,7 +156,7 @@
                     </li>
                     <span th:each="i: ${#numbers.sequence(1, parameter.getTotalPages)}">
                           <li class="page-item" th:if="${i != parameter.pageNumber}">
-                          <form method="get" th:action="@{/manager/orders}">
+                          <form>
                           <input type="hidden" th:value="${i}" th:name="pageNumber"/>
                           <input class="page-link" type="submit" th:value="${i}">
                           </form>
@@ -162,7 +166,7 @@
                         </li>
                     </span>
                     <li class="page-item " th:if="${parameter.pageNumber < parameter.getTotalPages}">
-                        <form method="get" th:action="@{/manager/orders}">
+                        <form>
                             <input type="hidden" th:value="${parameter.pageNumber + 1}" th:name="pageNumber"/>
                             <input class="page-link" type="submit" value="&raquo;">
                         </form>
@@ -171,7 +175,7 @@
                         <span class="page-link" aria-hidden="true">&raquo;</span>
                     </li>
                     <li class="page-item" th:if="${parameter.pageNumber < parameter.getTotalPages}">
-                        <form method="get" th:action="@{/manager/orders}">
+                        <form>
                             <input type="hidden" th:value="${parameter.getTotalPages}" th:name="pageNumber"/>
                             <input class="page-link" type="submit" value="Последняя">
                         </form>

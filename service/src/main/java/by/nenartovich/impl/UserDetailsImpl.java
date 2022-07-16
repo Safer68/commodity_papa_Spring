@@ -1,6 +1,5 @@
 package by.nenartovich.impl;
 
-import by.nenartovich.entity.Manager;
 import by.nenartovich.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +11,6 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-
     private final User user;
 
     @Override

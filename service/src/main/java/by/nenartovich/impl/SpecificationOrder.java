@@ -1,6 +1,9 @@
 package by.nenartovich.impl;
 
-import by.nenartovich.entity.*;
+import by.nenartovich.entity.Client;
+import by.nenartovich.entity.Manager;
+import by.nenartovich.entity.Order;
+import by.nenartovich.entity.Order_;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
@@ -18,6 +21,7 @@ public class SpecificationOrder {
             return criteriaBuilder.and(predicatesMain.toArray(new Predicate[predicatesMain.size()]));
         };
     }
+
     public static Specification<Order> getOrderByCreatDateFor(Date dataCreateFor) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicatesMain = new ArrayList<>();
@@ -27,7 +31,8 @@ public class SpecificationOrder {
             return criteriaBuilder.and(predicatesMain.toArray(new Predicate[predicatesMain.size()]));
         };
     }
-  public static Specification<Order> getOrderByManagerSpec(Manager manager) {
+
+    public static Specification<Order> getOrderByManagerSpec(Manager manager) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicatesMain = new ArrayList<>();
             if (manager != null) {

@@ -6,6 +6,7 @@ import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface DeliveryMapper {
+
     Delivery deliveryDtoToDelivery(DeliveryDto deliveryDto);
 
     DeliveryDto deliveryToDeliveryDto(Delivery delivery);

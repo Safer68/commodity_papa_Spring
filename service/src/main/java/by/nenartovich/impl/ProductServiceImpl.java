@@ -5,24 +5,22 @@ import by.nenartovich.ProductService;
 import by.nenartovich.dao.ProductRepository;
 import by.nenartovich.dto.ProductDto;
 import by.nenartovich.mappers.ProductMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
-        this.productRepository = productRepository;
-        this.productMapper = productMapper;
-    }
-
-    @Override
+    /*@Override
     public void createProduct(ProductDto productDto) {
         productRepository.save(productMapper.productDtoToProduct(productDto));
-    }
+    }*/
 
     @Override
     public ProductDto findById(Long productId) {
@@ -36,13 +34,13 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+   /* @Override
     public void updateProduct(ProductDto productDto) {
         productRepository.save(productMapper.productDtoToProduct(productDto));
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void removeProduct(Long productId) {
         productRepository.deleteById(productId);
-    }
+    }*/
 }

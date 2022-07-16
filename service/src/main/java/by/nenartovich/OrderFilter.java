@@ -1,7 +1,5 @@
 package by.nenartovich;
 
-import by.nenartovich.dto.ManagerDto;
-import by.nenartovich.entity.Client;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 @Builder
 @Data
@@ -18,8 +15,8 @@ import java.util.Objects;
 @NoArgsConstructor
 public class OrderFilter {
     private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private String client;
-    private ManagerDto managerDto;
+    private String clientName;
+    private String managerName;
     private String dateCreateBefore;
     private String dateCreateFor;
     private Date dateChange;
