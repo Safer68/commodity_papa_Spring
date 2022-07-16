@@ -24,7 +24,6 @@ import java.util.Set;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/")
-@SessionAttributes({"person", "nam", "filter"})
 public class IndexController {
 
     private final UserRepository userRepository;
@@ -39,21 +38,5 @@ public class IndexController {
             }
         }
         return "login";
-    }
-    @ModelAttribute("person")
-    public ManagerDto populatePerson() {
-        return ManagerDto.builder().build();
-        //return managerService.findByName(principal.getName());
-        //return ManagerDto.builder().build();
-    }
-
-    @ModelAttribute("nam")
-    public Par populateName() {
-        return Par.builder().build();
-    }
-
-    @ModelAttribute("filter")
-    public OrderFilter populateFilter() {
-        return OrderFilter.builder().build();
     }
 }

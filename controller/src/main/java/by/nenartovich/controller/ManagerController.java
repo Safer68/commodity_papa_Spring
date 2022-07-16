@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
 @Controller
 @AllArgsConstructor
 @RequestMapping
-/*@SessionAttributes({*//*"person",*//* "nam", "filter"})*/
+@SessionAttributes({"person", "nam", "filter"})
 public class ManagerController {
 
     private final ManagerService managerService;
@@ -31,13 +31,18 @@ public class ManagerController {
     private final ProductService productService;
     private final ClientRepository clientRepository;
     private final Basket basket;
-    @GetMapping("/manager")
-    public String getOrders( /*@ModelAttribute("person") ManagerDto managerDto,*/Principal principal){
-        /*managerDto = managerService.findByName(principal.getName());*/
-        System.out.println(/*managerDto + */"dsfdf----------------------------------------------------------------------------------");
+
+    /*@GetMapping("/manager")
+    public String getOrders(@ModelAttribute("nam") Par par,
+                            @ModelAttribute("filter") OrderFilter orderFilter,
+                            @ModelAttribute("person") ManagerDto managerDto,
+                            Principal principal) {
+        orderFilter.setManagerDto(managerDto);
+        *//*managerDto = managerService.findByName(principal.getName());*//*
+        System.out.println(managerDto + "dsfdf----------------------------------------------------------------------------------");
         return "redirect:/manager/orders";
-    }
-   /* @GetMapping("/orders")
+    }*/
+    @GetMapping("/manager/orders")
     public String getOrders(@ModelAttribute("nam") Par par,
                             @ModelAttribute("filter") OrderFilter orderFilter,
                             @ModelAttribute("person") ManagerDto managerDto,
@@ -50,7 +55,7 @@ public class ManagerController {
         par.setGetTotalElements(page.getTotalElements());
         model.addAttribute("orders", page);
         return "/manager/orders";
-    }*/
+    }
 
     /*@GetMapping("/orders/{pageNumber}")
     public String index(@ModelAttribute("nam") Par par, @ModelAttribute("filter") OrderFilter orderFilter,
@@ -130,7 +135,22 @@ public class ManagerController {
         return managerService.findByName(principal.getName());
     }*/
 
-   /* @ModelAttribute("nam")
+    /* @ModelAttribute("nam")
+     public Par populateName() {
+         return Par.builder().build();
+     }
+
+     @ModelAttribute("filter")
+     public OrderFilter populateFilter() {
+         return OrderFilter.builder().build();
+     }*/
+    @ModelAttribute("person")
+    public ManagerDto populatePerson(Principal principal) {
+        return managerService.findByName(principal.getName());
+        //return ManagerDto.builder().build();
+    }
+
+    @ModelAttribute("nam")
     public Par populateName() {
         return Par.builder().build();
     }
@@ -138,5 +158,5 @@ public class ManagerController {
     @ModelAttribute("filter")
     public OrderFilter populateFilter() {
         return OrderFilter.builder().build();
-    }*/
+    }
 }
