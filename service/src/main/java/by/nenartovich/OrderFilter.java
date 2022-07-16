@@ -1,7 +1,5 @@
 package by.nenartovich;
 
-import by.nenartovich.dto.ManagerDto;
-import by.nenartovich.entity.Client;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,42 +14,29 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderFilter {
-    private String client;
-    private ManagerDto managerDto;
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private String clientName;
+    private String managerName;
     private String dateCreateBefore;
     private String dateCreateFor;
     private Date dateChange;
 
     public Date gDateCreateBefore() {
-        if (dateCreateBefore != null && dateCreateBefore != "") {
-            SimpleDateFormat format = new SimpleDateFormat();
-            format.applyPattern("yyyy-MM-dd");
-            try {
-                Date date = format.parse(dateCreateBefore);
-                return date;
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return null;
+        return getDate(dateCreateBefore);
     }
 
     public Date gDateCreateFor() {
-        if (dateCreateFor != null && dateCreateFor != "") {
-            SimpleDateFormat format = new SimpleDateFormat();
-            format.applyPattern("yyyy-MM-dd");
-            try {
-                Date date = format.parse(dateCreateFor);
-                return date;
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return null;
+        return getDate(dateCreateFor);
     }
 
-    public static void main(String[] args) {
-        OrderFilter orderFilter = new OrderFilter();
-        orderFilter.setDateCreateBefore(" ");
+    private Date getDate(String dateCreate) {
+        if (dateCreate == null || "".equals(dateCreate)) {
+            return null;
+        }
+        try {
+            return SIMPLE_DATE_FORMAT.parse(dateCreate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

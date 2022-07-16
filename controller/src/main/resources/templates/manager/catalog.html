@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="partials/head :: content"></head>
+<body>
+<div class="g-navigation" th:insert="partials/navigation :: manager"></div>
+<div class="g-container">
+    <main class="g-main container-fluid">
+        <div class="d-flex bd-highlight mb-3">
+            <div class="p-2 bd-highlight"><h2>Каталог</h2></div>
+            <div class="p-2 bd-highlight">
+            </div>
+            <div class="ml-auto p-2 bd-highlight">
+                <a class="btn btn-outline-primary"
+                   href="/manager/product/new" role="button">
+                    <i class="col-1 bi bi-plus-circle">&nbsp&nbspДобавить продукт</i>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <section class="g-section">
+                    <table class="table">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">№</th>
+                            <th scope="col"></th>
+                            <th scope="col">Название</th>
+                            <th scope="col">Описание</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col">Категория</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <div th:each="product: ${products}">
+                            <tr>
+                                <td th:text="${product.id}">Id</td>
+                                <td >
+                                    <img src="https://avatars.githubusercontent.com/u/60327596?s=400&v=4"
+                                         class="g-sidebar__profile-photo" alt="...">
+                                </td>
+                                <td>Название</td>
+                                <td th:text="${product.description}">description</td>
+                                <td th:text="${product.price}">price</td>
+                                <td th:text="${product.section}">section</td>
+                                <td>
+                                    <a class="g-header__nav-link"
+                                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="g-header__icon--caret fas fa-caret-down"></i>
+                                    </a>
+                                    <div class="g-notification dropdown-menu dropdown-menu-right">
+                                        <button class="dropdown-item js-course-detail"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#product"
+                                                data-product-description="${product.description}"
+                                                data-product-price="${product.price}"
+                                                data-product="${product.id}"
+                                                data-action="update">
+                                            Информация
+                                        </button>
+                                        <form action="${pageContext.request.contextPath}/managerPage?pageName=Catalog"
+                                              name="deleting"
+                                              method="post">
+                                            <input type="hidden" name="productId" value="${product.id}"/>
+                                            <input type="hidden" name="action" value="delete"/>
+                                            <button class="dropdown-item">Удалить</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+
+    </main>
+</div>
+<footer class="g-footer text-right">
+    <span class="e-site-emphasize">Commodity Papa</span>
+</footer>
+<script th:src="@{/js/custom.js}"></script>
+<div class="modal fade" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="${pageContext.request.contextPath}/managerPage" method="post">
+                <div class="modal-body">
+                    Name <input th:text="${manager}" name="newName" class='lf--input'
+                                type="Name"><br><br>
+                    <input type="hidden" name="update" value="update"/>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+        $(".js-course-detail").click(
+            function () {
+                var productDescription = $(this).attr('data-product-description');
+                var productPrice = $(this).attr('data-product-price');
+                var dataProduct = $(this).attr('data-product');
+                var dataAction = $(this).attr('data-action');
+
+                $("#productDescription").val(productDescription)
+                $("#productPrice").val(productPrice)
+                $("#action").val(dataAction)
+                $("#productId").val(dataProduct)
+
+            })
+    });
+</script>

@@ -2,17 +2,17 @@ package by.nenartovich;
 
 
 import by.nenartovich.dto.ClientDto;
-import by.nenartovich.dto.OrderDto;
-
-import java.util.List;
+import by.nenartovich.dto.ManagerDto;
 
 public interface ClientService {
-    ClientDto findById(Long clientId);
+    ClientDto findByName(String clientName);
+    /*ClientDto findById(Long clientId);
 
     List<ClientDto> findAllClientDto();
 
     void updateClient(ClientDto clientDto);
 
-    List<OrderDto> getClientOrders(Long clientId);
+    List<OrderDto> getClientOrders(Long clientId);*/
+
     ClientDto save(ClientDto clientDto);
 }
