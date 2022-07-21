@@ -17,10 +17,10 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    /*@Override
-    public void createProduct(ProductDto productDto) {
+    @Override
+    public void save(ProductDto productDto) {
         productRepository.save(productMapper.productDtoToProduct(productDto));
-    }*/
+    }
 
     @Override
     public ProductDto findById(Long productId) {

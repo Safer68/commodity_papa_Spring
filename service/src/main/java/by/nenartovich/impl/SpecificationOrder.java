@@ -1,5 +1,6 @@
 package by.nenartovich.impl;
 
+import by.nenartovich.StatusOrder;
 import by.nenartovich.entity.Client;
 import by.nenartovich.entity.Manager;
 import by.nenartovich.entity.Order;
@@ -52,7 +53,15 @@ public class SpecificationOrder {
         };
     }
 
-
+    public static Specification<Order> getOrderStatusSpec(StatusOrder statusOrder) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicatesMain = new ArrayList<>();
+            if (statusOrder != null) {
+                predicatesMain.add(criteriaBuilder.equal(root.get(Order_.STATUS_ORDER), statusOrder));
+            }
+            return criteriaBuilder.and(predicatesMain.toArray(new Predicate[predicatesMain.size()]));
+        };
+    }
     /*  public static Specification<Horse> getHorseByPriceSpec(Double price) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicatesMain = new ArrayList<>();

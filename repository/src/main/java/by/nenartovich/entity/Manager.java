@@ -19,8 +19,14 @@ public class Manager {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "surname")
+    private String surname;
+
     @Column(name = "name")
     private String name;
+
+    @Column(name = "patronymic")
+    private String patronymic;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

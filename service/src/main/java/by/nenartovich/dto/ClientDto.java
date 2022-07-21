@@ -17,4 +17,5 @@ public class ClientDto implements Serializable {
     private String phoneNumber;
     private AddressDto address;
     private UserDto user;
+    private String email;
 }

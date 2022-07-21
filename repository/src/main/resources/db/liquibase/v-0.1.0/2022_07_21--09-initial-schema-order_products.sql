@@ -1,7 +1,7 @@
 create table order_products
 (
-    order_id    int not null,
-    products_id int not null,
+    order_id    bigint not null,
+    products_id bigint not null,
     primary key (order_id, products_id),
     constraint order_fk
         foreign key (order_id) references orders (id),

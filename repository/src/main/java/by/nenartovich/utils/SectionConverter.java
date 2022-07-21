@@ -1,4 +1,4 @@
-package by.nenartovich.entity;
+package by.nenartovich.utils;
 
 import by.nenartovich.Section;
 

@@ -5,27 +5,33 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
     <changeSet id="1" author="Nenartovich" failOnError="true">
-        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--01-initial-schema-client.sql"/>
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--01-initial-schema-user.sql"/>
     </changeSet>
     <changeSet id="2" author="Nenartovich" failOnError="true">
-        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--02-initial-schema-delivery.sql"/>
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--02-initial-schema-client.sql"/>
     </changeSet>
     <changeSet id="3" author="Nenartovich" failOnError="true">
-        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--03-initial-schema-manager.sql"/>
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--03-initial-schema-delivery.sql"/>
     </changeSet>
     <changeSet id="4" author="Nenartovich" failOnError="true">
-        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--04-initial-schema-orders.sql"/>
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--04-initial-schema-manager.sql"/>
     </changeSet>
     <changeSet id="5" author="Nenartovich" failOnError="true">
-        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--05-initial-schema-product.sql"/>
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--05-initial-schema-orders.sql"/>
     </changeSet>
     <changeSet id="6" author="Nenartovich" failOnError="true">
-        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--06-initial-schema-order_products.sql"/>
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--06-initial-schema-product.sql"/>
     </changeSet>
-    <changeSet id="7" author="Nenartovich" failOnError="true" context="test">
-        <sqlFile path="db/liquibase/v-0.1.0/2022_05_25--07-test-data.sql"/>
+    <changeSet id="7" author="Nenartovich" failOnError="true">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--07-initial-schema-roles.sql"/>
     </changeSet>
     <changeSet id="8" author="Nenartovich" failOnError="true" context="test">
-        <sqlFile path="db/liquibase/v-0.1.0/2022_05_30--01-change-schema-orders.sql"/>
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--08-initial-schema-user_role.sql"/>
+    </changeSet>
+    <changeSet id="9" author="Nenartovich" failOnError="true" context="test">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--09-initial-schema-order_products.sql"/>
+    </changeSet>
+    <changeSet id="10" author="Nenartovich" failOnError="true" context="test">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--10-test-data.sql"/>
     </changeSet>
 </databaseChangeLog>

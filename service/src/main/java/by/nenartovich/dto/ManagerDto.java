@@ -1,5 +1,6 @@
 package by.nenartovich.dto;
 
+import by.nenartovich.StatusOrder;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +11,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 public class ManagerDto implements Serializable {
-    private final Long id;
-    private final String name;
-    private final UserDto user;
+    private Long id;
+    private String name;
+    private UserDto user;
 }

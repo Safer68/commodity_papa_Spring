@@ -29,10 +29,10 @@ public class OrderServiceImpl implements OrderService {
     private final ManagerRepository managerRepository;
     private final OrderMapper orderMapper;
 
-   /* @Override
+    @Override
     public OrderDto findById(Long orderId) {
         return orderMapper.orderToOrderDto(orderRepository.getReferenceById(orderId));
-    }*/
+    }
 
    /* @Override
     public List<OrderDto> findAllOrderDto() {
@@ -84,6 +84,9 @@ public class OrderServiceImpl implements OrderService {
                                 .orElse(null))
                         .and(Optional.ofNullable(managerRepository.findByName(orderFilter.getManagerName()))
                                 .map(SpecificationOrder::getOrderByManagerSpec)
+                                .orElse(null))
+                        .and(Optional.ofNullable(orderFilter.getStatusOrder())
+                                .map(SpecificationOrder::getOrderStatusSpec)
                                 .orElse(null));
         Sort sort = parameter.getSortDir().equalsIgnoreCase(Sort.Direction.ASC.name())
                 ? Sort.by(parameter.getSortField()).ascending()

@@ -1,4 +1,4 @@
-create table manager
+create table roles
 (
     id   int auto_increment
         primary key,

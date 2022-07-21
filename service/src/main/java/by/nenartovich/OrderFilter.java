@@ -19,6 +19,7 @@ public class OrderFilter {
     private String managerName;
     private String dateCreateBefore;
     private String dateCreateFor;
+    private StatusOrder statusOrder;
     private Date dateChange;
 
     public Date gDateCreateBefore() {
@@ -38,5 +39,12 @@ public class OrderFilter {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }
+    public void cline(){
+
+        this.dateCreateBefore= null;
+        this.dateCreateFor= null;
+        this.statusOrder= null;
+        this.dateChange= null;
     }
 }

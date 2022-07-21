@@ -1,13 +1,14 @@
 package by.nenartovich.entity;
 
+import by.nenartovich.Section;
+import by.nenartovich.StatusOrder;
+import by.nenartovich.utils.SectionConverter;
+import by.nenartovich.utils.StatusOrderConverter;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Builder
 @AllArgsConstructor
@@ -28,10 +29,8 @@ public class Order {
     @Column(name = "date_of_change")
     @Builder.Default
     private Date dateChange = new Date();
-
-    @Column(name = "status")
-    @Builder.Default
-    private boolean status = true;
+    @Column(name = "price")
+    private Double price;
 
     @ManyToMany
     @JoinTable(name = "order_products",
@@ -50,5 +49,20 @@ public class Order {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "manager_id")
     private Manager manager;
+
+    @Column(name = "status_order")
+    @Convert(converter = StatusOrderConverter.class)
+    private StatusOrder statusOrder;
+
+    @Embedded
+    private Address addressDelivery;
+
+    @Column(name = "track_number")
+    private String trackNumber;
+
+    @ElementCollection
+    @CollectionTable(name = "product_amount", joinColumns = @JoinColumn(name = "order_id"))
+    @Column(name = "productt")
+    private Map<Product, Integer> productMap;
 
 }

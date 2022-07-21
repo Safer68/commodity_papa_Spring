@@ -1,30 +1,31 @@
-package by.nenartovich.util;
+package by.nenartovich.utils;
 
 
 import by.nenartovich.Section;
+import by.nenartovich.StatusOrder;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.util.stream.Stream;
 
 @Converter(autoApply = true)
-public class SectionConverter implements AttributeConverter<Section, String> {
+public class StatusOrderConverter implements AttributeConverter<StatusOrder, String> {
 
     @Override
-    public String convertToDatabaseColumn(Section category) {
-        if (category == null) {
+    public String convertToDatabaseColumn(StatusOrder status) {
+        if (status == null) {
             return null;
         }
-        return category.getCode();
+        return status.getCode();
     }
 
     @Override
-    public Section convertToEntityAttribute(String code) {
+    public StatusOrder convertToEntityAttribute(String code) {
         if (code == null) {
             return null;
         }
 
-        return Stream.of(Section.values())
+        return Stream.of(StatusOrder.values())
                 .filter(c -> c.getCode().equals(code))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);

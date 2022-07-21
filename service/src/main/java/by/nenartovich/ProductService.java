@@ -6,7 +6,7 @@ import by.nenartovich.dto.ProductDto;
 import java.util.List;
 
 public interface ProductService {
-    /* void createProduct(ProductDto productDto);*/
+     void save(ProductDto productDto);
 
     ProductDto findById(Long productId);
 

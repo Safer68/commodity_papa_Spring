@@ -12,6 +12,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -51,7 +52,7 @@ public class ManagerController {
 
     @PostMapping("/orders")
     public String create(@ModelAttribute("order") OrderDto orderDto,
-                         @RequestParam("answerList") List<Long> answerList,
+                         @RequestParam("productList") List<Long> answerList,
                          @ModelAttribute("address") AddressDto addressDto,
                          @ModelAttribute("client") ClientDto clientDto, Principal principal) {
         List<ProductDto> productDtos = answerList.stream()
@@ -61,7 +62,11 @@ public class ManagerController {
         clientDto.setAddress(addressDto);
         orderDto.setClient(clientService.save(clientDto));
         orderDto.setProducts(productDtos);
+        orderDto.setPrice(productDtos.stream()
+                .mapToDouble(ProductDto::getPrice)
+                .sum());
         orderDto.setManager(managerDto);
+        orderDto.setStatusOrder(StatusOrder.ACCEPTED_BY_MANAGER);
         orderService.save(orderDto);
         return "redirect:/manager/orders";
     }

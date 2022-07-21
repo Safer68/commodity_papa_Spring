@@ -1,13 +1,22 @@
 package by.nenartovich.controller;
 
 
-import by.nenartovich.*;
+import by.nenartovich.ProductService;
 import by.nenartovich.dto.ProductDto;
+import by.nenartovich.utils.FileNameUtils;
+import by.nenartovich.utils.FileUtils;
 import lombok.AllArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.FileItem;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItem;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -19,18 +28,65 @@ public class CatalogController {
     private final ProductService productService;
 
     @GetMapping("/manager/catalog")
-    public String getProducts(Model model){
+    public String getProducts(Model model) {
         List<ProductDto> productDtoList = productService.findAllProductDto();
-        model.addAttribute("products",productDtoList);
+        model.addAttribute("products", productDtoList);
         return "/manager/catalog";
-
     }
-    @GetMapping("/manager/product/new")
-    public String getProduct(/*Model model*/){
-       /* List<ProductDto> productDtoList = productService.findAllProductDto();
-        model.addAttribute("products",productDtoList);*/
-        return "/manager/product";
 
+    @GetMapping("/manager/product/new")
+    public String getProduct(Model model) {
+        model.addAttribute("product", new ProductDto());
+        return "/manager/product";
+    }
+
+    @GetMapping("/manager/product/update/{id}")
+    public String getProduct(Model model, @PathVariable("id") long id) {
+        ProductDto productDto = productService.findById(id);
+        System.out.println(productDto);
+        System.out.println("--------------------------------------------------------------------------------");
+        model.addAttribute("product", productDto);
+        return "/manager/product-update";
+    }
+
+    @PostMapping("/manager/catalog2")
+    public String createProducts(@ModelAttribute("product") ProductDto productDto,
+                                 @Value("${web.upload-path}") String path,
+                                 @RequestParam ("file") MultipartFile file) {
+        System.out.println(productDto);
+        if (0 != file.getSize()) {
+            String fileName = FileNameUtils.getFileName(file.getOriginalFilename());
+            System.out.println(file.getOriginalFilename() + "45");
+            System.out.println(file.getSize());
+            if (FileUtils.upload(file, path, fileName)) {
+                productDto.setImage(fileName);
+                System.out.println(fileName + "--------------------------------------------------------------------------");
+            }
+        } else {
+            productDto.setImage("fbf18823c6a04177bd97b146d2341388.png");
+        }
+        productService.save(productDto);
+        return "redirect:/manager/catalog";
+    }
+
+    @PatchMapping("/manager/product/update/{id}")
+    public String proUpdate(@ModelAttribute("product") ProductDto productDto,
+                            @Value("${web.upload-path}") String path,
+                            @RequestParam ("file") MultipartFile file) {
+        System.out.println(productDto);
+        if (0 != file.getSize()) {
+            String fileName = FileNameUtils.getFileName(file.getOriginalFilename());
+            System.out.println(file.getOriginalFilename() + "45");
+            System.out.println(file.getSize());
+            if (FileUtils.upload(file, path, fileName)) {
+                productDto.setImage(fileName);
+                System.out.println(fileName + "--------------------------------------------------------------------------");
+            }
+        } else {
+            productDto.setImage("fbf18823c6a04177bd97b146d2341388.png");
+        }
+        productService.save(productDto);
+        return "redirect:/manager/catalog";
     }
 
     /*@GetMapping("/orders")

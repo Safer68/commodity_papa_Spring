@@ -5,14 +5,12 @@ import by.nenartovich.OrderService;
 import by.nenartovich.Parameter;
 import by.nenartovich.dto.ManagerDto;
 import by.nenartovich.dto.OrderDto;
+import by.nenartovich.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @AllArgsConstructor
@@ -30,6 +28,7 @@ public class OrderController {
         parameter.setGetTotalPages(page.getTotalPages());
         parameter.setGetTotalElements(page.getTotalElements());
         model.addAttribute("orders", page);
+        model.addAttribute("ord", new OrderDto());
         return "/manager/orders";
     }
 
@@ -43,6 +42,13 @@ public class OrderController {
         parameter.setGetTotalElements(page.getTotalElements());
         model.addAttribute("orders", page);
         return "/client/orders";
+    }
+
+    @GetMapping("/manager/orders/{id}")
+    public String getProduct(Model model, @PathVariable("id") long id) {
+        OrderDto orderDto = orderService.findById(id);
+        model.addAttribute("order", orderDto);
+        return "/manager/order";
     }
 
 }
