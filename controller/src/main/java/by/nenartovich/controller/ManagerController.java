@@ -3,19 +3,24 @@ package by.nenartovich.controller;
 
 import by.nenartovich.*;
 import by.nenartovich.dto.*;
-import org.springframework.data.domain.Page;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/manager")
+@SessionAttributes({"person", "parameter", "filter"})
 public class ManagerController {
 
     private final ManagerService managerService;
@@ -24,37 +29,12 @@ public class ManagerController {
     private final DeliveryService deliveryService;
     private final ProductService productService;
 
-    public ManagerController(ManagerService managerService, OrderService orderService, ClientService clientService, DeliveryService deliveryService, ProductService productService) {
-        this.managerService = managerService;
-        this.orderService = orderService;
-        this.clientService = clientService;
-        this.deliveryService = deliveryService;
-        this.productService = productService;
-    }
-
-    @GetMapping("/orders")
-    public String showHorsesFirstPage(Model model, Principal principal) {
-        return index(1, "id", "asc", model, principal);
-    }
-
-    @GetMapping("/orders/{pageNumber}")
-    public String index(@PathVariable(value = "pageNumber") int pageNumber, @RequestParam("sortField") String sortField,
-                        @RequestParam("sortDir") String sortDir, Model model, Principal principal) {
-        String managerName = principal.getName();
-        ManagerDto managerDto = managerService.findByName(principal.getName());
-        Page<OrderDto> page = managerService.findAllPaginated(pageNumber, sortField, sortDir, managerDto.getId());
-        int totalPages = page.getTotalPages();
-        long totalItems = page.getTotalElements();
-        List<OrderDto> orders = page.getContent();
-        model.addAttribute("currentPage", pageNumber);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("totalItems", totalItems);
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-        model.addAttribute("orders", page);
-        model.addAttribute("manager", managerName);
-        return "/manager/orders";
+    @GetMapping
+    public String getOrders(@ModelAttribute("parameter") Parameter parameter,
+                            @ModelAttribute("filter") OrderFilter orderFilter,
+                            @ModelAttribute("person") ManagerDto managerDto) {
+        orderFilter.setManagerName(managerDto.getName());
+        return "redirect:/manager/orders";
     }
 
     @GetMapping("/order/new")
@@ -72,18 +52,37 @@ public class ManagerController {
 
     @PostMapping("/orders")
     public String create(@ModelAttribute("order") OrderDto orderDto,
-                         @RequestParam("answerList") Long[] answerList,
+                         @RequestParam("productList") List<Long> answerList,
                          @ModelAttribute("address") AddressDto addressDto,
                          @ModelAttribute("client") ClientDto clientDto, Principal principal) {
-        List<Long> list = new ArrayList<>();
-        Collections.addAll(list, answerList);
-        List<ProductDto> productDtos = list.stream().map(productService::findById).collect(Collectors.toList());
+        List<ProductDto> productDtos = answerList.stream()
+                .map(productService::findById)
+                .collect(toList());
         ManagerDto managerDto = managerService.findByName(principal.getName());
         clientDto.setAddress(addressDto);
         orderDto.setClient(clientService.save(clientDto));
         orderDto.setProducts(productDtos);
+        orderDto.setPrice(productDtos.stream()
+                .mapToDouble(ProductDto::getPrice)
+                .sum());
         orderDto.setManager(managerDto);
+        orderDto.setStatusOrder(StatusOrder.ACCEPTED_BY_MANAGER);
         orderService.save(orderDto);
         return "redirect:/manager/orders";
+    }
+
+    @ModelAttribute("person")
+    public ManagerDto populatePerson(Principal principal) {
+        return managerService.findByName(principal.getName());
+    }
+
+    @ModelAttribute("parameter")
+    public Parameter populateName() {
+        return Parameter.builder().build();
+    }
+
+    @ModelAttribute("filter")
+    public OrderFilter populateFilter() {
+        return OrderFilter.builder().build();
     }
 }

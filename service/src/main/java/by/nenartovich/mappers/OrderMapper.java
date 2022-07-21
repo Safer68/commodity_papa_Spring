@@ -7,7 +7,7 @@ import org.mapstruct.*;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
 public interface OrderMapper {
     Order orderDtoToOrder(OrderDto orderDto);
-    @Mapping(ignore = true, target = "price")
+
     OrderDto orderToOrderDto(Order order);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

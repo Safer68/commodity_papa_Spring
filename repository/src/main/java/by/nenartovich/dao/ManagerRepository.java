@@ -10,11 +10,13 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ManagerRepository extends JpaRepository<Manager, Long> {
-    Manager findByUserName(String userName);
+    Manager findByName(String managerName);
     @Query("select e.orders from Manager e where e.id=?1")
     List<Order> getManagerOrders(Long managerId);
-    @Query("select e.orders from Manager e where e.userName=?1")
+    @Query("select e.orders from Manager e where e.name=?1")
     List<Order> getManagerOrders (String managerName);
-
-    Page<Manager> findAll(Pageable paged);
+    @Query("select e.orders from Manager e where e.id=?2")
+    Page<Order> findAll(Pageable paged,Long managerId);
+    @Query("select e from Manager e where e.user.userName=?1")
+    Manager findByUserName(String userName);
 }

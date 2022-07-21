@@ -2,11 +2,13 @@
 <html lang="en">
 <head th:insert="partials/head :: content"></head>
 <body>
-<div class="g-navigation" th:insert="partials/navigation :: content"></div>
+<div class="g-navigation" th:insert="partials/navigation :: manager"></div>
 <div class="g-container">
     <main class="g-main container-fluid">
         <div class="d-flex bd-highlight mb-3">
             <div class="p-2 bd-highlight"><h2>Заказы</h2></div>
+            <div class="p-2 bd-highlight">
+            </div>
             <div class="ml-auto p-2 bd-highlight">
                 <a class="btn btn-outline-primary"
                    href="/manager/order/new" role="button">
@@ -14,15 +16,74 @@
                 </a>
             </div>
         </div>
+        <span class="g-main__subtitle">Дата создания</span>
+        <form class="form-inline">
+            <div class="form-group mx-sm-3 mb-1">Oт</div>
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="date" th:value="${filter.dateCreateFor}" th:name="dateCreateFor">
+            </div>
+            <div class="form-group mx-sm-3 mb-1">До</div>
+            <div class="form-group mx-sm-3 mb-2">
+                <input type="date" th:value="${filter.dateCreateBefore}" th:name="dateCreateBefore">
+            </div>
+            <div class="form-group mx-sm-3 mb-1">Статут</div>
+                <div>
+                    <select name="product" th:field="*{filter.statusOrder}">
+                        <option th:each="statusOrder : ${T(by.nenartovich.StatusOrder).values()}"
+                                th:value="${statusOrder}" th:text="${statusOrder.getCode}"></option>
+                    </select>
+                </div>
+                <div class="form-group mx-sm-3 mb-2"></div>
+                <input type="hidden" th:value="1" th:name="pageNumber"/>
+                <button type="submit" class="btn btn-primary mb-2">Фильтр</button>
+        <form class="form-inline">
+            <input type="hidden" th:value="1" th:name="pageNumber"/>
+            <th:block th:text="${filter.cline()}"/>
+            <button type="submit" class="btn btn-primary mb-2">Сброс</button>
+        </form>
+        </form>
         <div class="row">
             <div class="col-12">
                 <section class="g-section">
                     <table class="table">
                         <thead class="thead-light">
                         <tr>
-                            <th scope="col">№</th>
-                            <th scope="col">Дата заказа</th>
-                            <th scope="col">Дата изменения</th>
+                            <th scope="col">
+                                <form>
+                                    <div th:if="${parameter.sortDir=='asc'}">
+                                        <input type="hidden" th:value="desc" th:name="sortDir"/>
+                                    </div>
+                                    <div th:unless="${parameter.sortDir=='asc'}">
+                                        <input type="hidden" th:value="asc" th:name="sortDir"/>
+                                    </div>
+                                    <input type="hidden" th:value="id" th:name="sortField"/>
+                                    <input class="btn btn-link" type="submit" value="№">
+                                </form>
+                            </th>
+                            <th scope="col">
+                                <form>
+                                    <div th:if="${parameter.sortDir=='asc'}">
+                                        <input type="hidden" th:value="desc" th:name="sortDir"/>
+                                    </div>
+                                    <div th:unless="${parameter.sortDir=='asc'}">
+                                        <input type="hidden" th:value="asc" th:name="sortDir"/>
+                                    </div>
+                                    <input type="hidden" th:value="dateCreate" th:name="sortField"/>
+                                    <input class="btn btn-link" type="submit" value="Дата заказа">
+                                </form>
+                            </th>
+                            <th scope="col">
+                                <form>
+                                    <div th:if="${parameter.sortDir=='asc'}">
+                                        <input type="hidden" th:value="desc" th:name="sortDir"/>
+                                    </div>
+                                    <div th:unless="${parameter.sortDir=='asc'}">
+                                        <input type="hidden" th:value="asc" th:name="sortDir"/>
+                                    </div>
+                                    <input type="hidden" th:value="dateChange" th:name="sortField"/>
+                                    <input class="btn btn-link" type="submit" value="Дата изменения">
+                                </form>
+                            </th>
                             <th scope="col">Товар</th>
                             <th scope="col">Клиент</th>
                             <th scope="col">Сумма заказа</th>
@@ -33,8 +94,13 @@
                         </thead>
                         <tbody>
                         <div th:each="order: ${orders}">
-                            <div th:if="${order.status}">
-                                <tr class="table-warning">
+                            <div th:switch="${order.statusOrder}">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).PENDING_PROCESSING}" class="table-light">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).ACCEPTED_BY_MANAGER}"
+                                    class="table-primary">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).SENT}" class="table-warning">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).RECEIVED}" class="table-success">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).RETURN}" class="table-danger">
                             </div>
                             <td th:text="${order.id}">Id</td>
                             <td th:text="${#dates.format(order.dateCreate, 'dd-MMM-yyyy')}">dataCreate</td>
@@ -42,14 +108,14 @@
                             <td>
                                 <select name="product">
                                     <div th:each="product : ${order.products}">
-                                        <option th:text="${product.description}">description</option>
+                                        <option th:text="${product.name}">description</option>
                                     </div>
                                 </select>
                             </td>
                             <td th:text="${order.client.name}">client</td>
                             <td th:text="${order.price}">client</td>
                             <td th:text="${order.delivery.name}">delivery</td>
-                            <td th:text="${order.status}">delivery</td>
+                            <td th:text="${order.statusOrder.code}">statusOrder</td>
                             <td>
                                 <a class="g-header__nav-link"
                                    data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -57,6 +123,7 @@
                                     <i class="g-header__icon--caret fas fa-caret-down"></i>
                                 </a>
                                 <div class="g-notification dropdown-menu dropdown-menu-right">
+                                    <a th:href="@{/manager/orders/{id}(id=${order.id})}">Подробно</a>
                                     <button class="dropdown-item js-course-detail"
                                             data-bs-toggle="modal"
                                             data-bs-target="#OtderForm"
@@ -83,56 +150,60 @@
         </div>
         <div style="text-align: center">
 
-
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item" th:if="${currentPage > 1}">
-                        <a class="page-link"
-                           th:href="@{'/manager/orders/'+ ${1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Первая</a>
+                    <li class="page-item" th:if="${parameter.pageNumber > 1}">
+                        <form>
+                            <input type="hidden" th:value="1" th:name="pageNumber"/>
+                            <input class="page-link" type="submit" value="Первая">
+                        </form>
                     </li>
-                    <li class="page-item disabled" th:unless="${currentPage > 1}">
+                    <li class="page-item disabled" th:unless="${parameter.pageNumber > 1}">
                         <span class="page-link" aria-hidden="true">Первая</span>
                     </li>
-                    <li class="page-item " th:if="${currentPage > 1}">
-                        <a class="page-link"
-                           th:href="@{'/manager/orders/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
-                           aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+                    <li class="page-item " th:if="${parameter.pageNumber > 1}">
+                        <form method="get" th:action="@{/manager/orders}">
+                            <input type="hidden" th:value="${parameter.pageNumber - 1}" th:name="pageNumber"/>
+                            <input class="page-link" type="submit" value="&laquo;">
+                        </form>
                     </li>
-                    <li class="page-item disabled " th:unless="${currentPage > 1}">
+                    <li class="page-item disabled " th:unless="${parameter.pageNumber > 1}">
                         <span class="page-link" aria-hidden="true">&laquo;</span>
                     </li>
-                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                        <li class="page-item" th:if="${i != currentPage}">
-                            <a class="page-link"
-                               th:href="@{'/manager/orders/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-                        </li>
-                        <li class="page-item active" th:unless="${i != currentPage}">
+                    <span th:each="i: ${#numbers.sequence(1, parameter.getTotalPages)}">
+                          <li class="page-item" th:if="${i != parameter.pageNumber}">
+                          <form method="get" th:action="@{/manager/orders}">
+                          <input type="hidden" th:value="${i}" th:name="pageNumber"/>
+                          <input class="page-link" type="submit" th:value="${i}">
+                          </form>
+                          </li>
+                        <li class="page-item active" th:unless="${i != parameter.pageNumber}">
                             <span class="page-link">[[${i}]]</span>
                         </li>
                     </span>
-                    <li class="page-item " th:if="${currentPage < totalPages}">
-                        <a class="page-link"
-                           th:href="@{'/manager/orders/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"
-                           aria-label="Previous">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+                    <li class="page-item " th:if="${parameter.pageNumber < parameter.getTotalPages}">
+                        <form method="get" th:action="@{/manager/orders}">
+                            <input type="hidden" th:value="${parameter.pageNumber + 1}" th:name="pageNumber"/>
+                            <input class="page-link" type="submit" value="&raquo;">
+                        </form>
                     </li>
-                    <li class="page-item disabled " th:unless="${currentPage < totalPages}">
+                    <li class="page-item disabled " th:unless="${parameter.pageNumber < parameter.getTotalPages}">
                         <span class="page-link" aria-hidden="true">&raquo;</span>
                     </li>
-                    <li class="page-item" th:if="${currentPage < totalPages}">
-                        <a class="page-link"
-                           th:href="@{'/manager/orders/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Последняя</a>
+                    <li class="page-item" th:if="${parameter.pageNumber < parameter.getTotalPages}">
+                        <form method="get" th:action="@{/manager/orders}">
+                            <input type="hidden" th:value="${parameter.getTotalPages}" th:name="pageNumber"/>
+                            <input class="page-link" type="submit" value="Последняя">
+                        </form>
                     </li>
-                    <li class="page-item disabled" th:unless="${currentPage < totalPages}">
+                    <li class="page-item disabled" th:unless="${parameter.pageNumber < parameter.getTotalPages}">
                         <span class="page-link" aria-hidden="true">Последняя</span>
                     </li>
                 </ul>
             </nav>
             <p>
-                Всего строк [[${totalItems}]] : Страница [[${currentPage}]] из [[${totalPages}]]
+                Всего строк [[${parameter.getTotalElements}]] : Страница [[${parameter.pageNumber}]] из
+                [[${parameter.getTotalPages}]]
             </p>
         </div>
     </main>

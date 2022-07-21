@@ -1,6 +1,7 @@
 package by.nenartovich.dto;
 
-import by.nenartovich.entity.Manager;
+import by.nenartovich.StatusOrder;
+import by.nenartovich.entity.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,13 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto implements Serializable {
-    private  Long id;
-    private  Date dateCreate;
-    private  Date dateChange;
-    private  boolean status;
+    private Long id;
+    private Date dateCreate;
+    private Date dateChange;
     private List<ProductDto> products;
     private ManagerDto manager;
-    private  Double price;
-    private  ClientDto client;
-    private  DeliveryDto delivery;
+    private Double price;
+    private ClientDto client;
+    private DeliveryDto delivery;
+    private StatusOrder statusOrder;
+    private AddressDto addressDelivery;
+    private String trackNumber;
 }

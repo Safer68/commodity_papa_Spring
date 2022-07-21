@@ -2,7 +2,7 @@
 <html lang="en">
 <head th:insert="partials/head :: content"/>
 <body>
-<div class="g-navigation" th:insert="partials/navigation :: content"/>
+<div class="g-navigation" th:insert="partials/navigation :: manager"/>
 <div class="g-container">
     <main class="g-main container-fluid">
         <div class="d-flex bd-highlight mb-3">
@@ -78,13 +78,9 @@
                                     <td th:text="${product.description}">description</td>
                                     <td th:text="${product.price}">price</td>
                                     <td th:text="${product.section}">section</td>
-                                    <td><input type="checkbox" name="answerList" th:value="${product.getId()}">
-                                        <!--<input type="hidden" name="quizId" th:value="${quizId}">
-                                        <input type="hidden" name="questionId" th:value="${question.getId()}"> --><!-- МЕНЯЕМ ТОЛЬКО ВОТ ТУТ-->
+                                    <td>
+                                        <input type="checkbox" name="productList" th:value="${product.getId()}">
                                     </td>
-                                    <!--th:field="*{customer.phoneNumbers[0].phoneNumber}" name="phoneNumber" th:placeholder="phoneNumber"
-                                    <td><input type="checkbox" name="active"
-                                               th:checked="*{order.products[0].id}"name="product" th:placeholder="product" ></td>-->
                                 </tr>
                             </div>
                             </tbody>

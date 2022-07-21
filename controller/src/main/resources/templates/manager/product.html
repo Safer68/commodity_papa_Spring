@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="partials/head :: content"></head>
+<body>
+<div class="g-navigation" th:insert="partials/navigation :: manager"></div>
+<div class="g-container">
+    <main class="g-main container-fluid">
+        <div class="d-flex bd-highlight mb-3">
+            <div class="p-2 bd-highlight"><h2>Название товара</h2></div>
+            <div class="p-2 bd-highlight">
+            </div>
+            <div class="ml-auto p-2 bd-highlight">
+                <a class="btn btn-outline-primary"
+                   href="/manager/catalog" role="button">
+                    <i class="col-1 bi bi-arrow-90deg-left"> Назад</i>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <section class="g-section">
+                    <form method="POST" action="/manager/catalog2" enctype="multipart/form-data">
+                        <div class="mb-5 row">
+                            <label class="col-sm-4 col-form-label">
+                                <img th:src="@{'/'+${product.image}}" class="rounded">
+                                <br>
+                                <p>Выберите файл:<input type="file" value="img" name="file"/></p>
+                            </label>
+                            <label class="col-sm-8 col-form-label">
+                                <div class="form-group">
+                                    <label>Название</label>
+                                    <input type="text" class="form-control" th:field="*{product.name}" name="name">
+                                </div>
+                                <hr class="my-4">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlTextarea1">Описание</label>
+                                        <textarea class="form-control disabled" th:field="*{product.description}"
+                                                  id="exampleFormControlTextarea1"
+                                                  rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Цена</label>
+                                    <input type="number" class="form-control" th:field="*{product.price}" name="price">
+                                </div>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch1"
+                                           role="switch"
+                                           name="active"
+                                           th:field="*{product.active}"
+                                           checked>
+                                    <label class="custom-control-label" for="customSwitch1">Наличие товара</label>
+                                </div>
+                                <div>
+                                    <label>Категория</label>
+                                <select name="product" th:field="*{product.section}">
+                                    <option selected th:value="*{product.section}" th:text="${product.section}"></option>
+                                    <option th:each="section : ${T(by.nenartovich.Section).values()}"
+                                            th:value="${section}" th:text="${section}"></option>
+                                </select>
+                                </div>
+                            </label>
+                        </div>
+                        <div>
+                            <button type="submit" class="col-1 bi">Сохранить</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+
+    </main>
+</div>
+<footer class="g-footer text-right">
+    <span class="e-site-emphasize">Commodity Papa</span>
+</footer>
+<script th:src="@{/js/custom.js}"></script>
+<div class="modal fade" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="${pageContext.request.contextPath}/managerPage" method="post">
+                <div class="modal-body">
+                    Name <input th:text="${manager}" name="newName" class='lf--input'
+                                type="Name"><br><br>
+                    <input type="hidden" name="update" value="update"/>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+        $(".js-course-detail").click(
+            function () {
+                var productDescription = $(this).attr('data-product-description');
+                var productPrice = $(this).attr('data-product-price');
+                var dataProduct = $(this).attr('data-product');
+                var dataAction = $(this).attr('data-action');
+
+                $("#productDescription").val(productDescription)
+                $("#productPrice").val(productPrice)
+                $("#action").val(dataAction)
+                $("#productId").val(dataProduct)
+
+            })
+    });
+</script>

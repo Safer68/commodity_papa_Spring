@@ -17,20 +17,23 @@ import java.util.Set;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "surname", length = 20)
+    @Column(name = "surname")
     private String surname;
 
-    @Column(name = "name", length = 20)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "patronymic", length = 20)
+    @Column(name = "patronymic")
     private String patronymic;
 
-    @Column(name = "phone_number", length = 15)
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+    @Column(name = "email")
+    private String email;
 
     @Embedded
     private Address address;
@@ -38,26 +41,7 @@ public class Client {
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> orders = new java.util.LinkedHashSet<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Client client = (Client) o;
-        return id != null && Objects.equals(id, client.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "id = " + id + ", " +
-                "surname = " + surname + ", " +
-                "name = " + name + ", " +
-                "patronymic = " + patronymic + ", " +
-                "address = " + address + ")";
-    }
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 }

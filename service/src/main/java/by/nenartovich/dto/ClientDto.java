@@ -10,10 +10,12 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientDto implements Serializable {
-    private  Long id;
-    private  String surname;
-    private  String name;
-    private  String patronymic;
-    private  String phoneNumber;
-    private  AddressDto address;
+    private Long id;
+    private String surname;
+    private String name;
+    private String patronymic;
+    private String phoneNumber;
+    private AddressDto address;
+    private UserDto user;
+    private String email;
 }
