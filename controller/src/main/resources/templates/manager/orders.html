@@ -9,7 +9,6 @@
             <div class="p-2 bd-highlight"><h2>Заказы</h2></div>
             <div class="p-2 bd-highlight">
             </div>
-
             <div class="ml-auto p-2 bd-highlight">
                 <a class="btn btn-outline-primary"
                    href="/manager/order/new" role="button">
@@ -17,17 +16,32 @@
                 </a>
             </div>
         </div>
+        <span class="g-main__subtitle">Дата создания</span>
         <form class="form-inline">
+            <div class="form-group mx-sm-3 mb-1">Oт</div>
             <div class="form-group mx-sm-3 mb-2">
                 <input type="date" th:value="${filter.dateCreateFor}" th:name="dateCreateFor">
             </div>
+            <div class="form-group mx-sm-3 mb-1">До</div>
             <div class="form-group mx-sm-3 mb-2">
                 <input type="date" th:value="${filter.dateCreateBefore}" th:name="dateCreateBefore">
             </div>
+            <div class="form-group mx-sm-3 mb-1">Статут</div>
+                <div>
+                    <select name="product" th:field="*{filter.statusOrder}">
+                        <option th:each="statusOrder : ${T(by.nenartovich.StatusOrder).values()}"
+                                th:value="${statusOrder}" th:text="${statusOrder.getCode}"></option>
+                    </select>
+                </div>
+                <div class="form-group mx-sm-3 mb-2"></div>
+                <input type="hidden" th:value="1" th:name="pageNumber"/>
+                <button type="submit" class="btn btn-primary mb-2">Фильтр</button>
+        <form class="form-inline">
             <input type="hidden" th:value="1" th:name="pageNumber"/>
-            <button type="submit" class="btn btn-primary mb-2">Фильтр</button>
+            <th:block th:text="${filter.cline()}"/>
+            <button type="submit" class="btn btn-primary mb-2">Сброс</button>
         </form>
-
+        </form>
         <div class="row">
             <div class="col-12">
                 <section class="g-section">
@@ -80,8 +94,13 @@
                         </thead>
                         <tbody>
                         <div th:each="order: ${orders}">
-                            <div th:if="${order.status}">
-                                <tr class="table-warning">
+                            <div th:switch="${order.statusOrder}">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).PENDING_PROCESSING}" class="table-light">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).ACCEPTED_BY_MANAGER}"
+                                    class="table-primary">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).SENT}" class="table-warning">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).RECEIVED}" class="table-success">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).RETURN}" class="table-danger">
                             </div>
                             <td th:text="${order.id}">Id</td>
                             <td th:text="${#dates.format(order.dateCreate, 'dd-MMM-yyyy')}">dataCreate</td>
@@ -89,14 +108,14 @@
                             <td>
                                 <select name="product">
                                     <div th:each="product : ${order.products}">
-                                        <option th:text="${product.description}">description</option>
+                                        <option th:text="${product.name}">description</option>
                                     </div>
                                 </select>
                             </td>
                             <td th:text="${order.client.name}">client</td>
                             <td th:text="${order.price}">client</td>
                             <td th:text="${order.delivery.name}">delivery</td>
-                            <td th:text="${order.status}">delivery</td>
+                            <td th:text="${order.statusOrder.code}">statusOrder</td>
                             <td>
                                 <a class="g-header__nav-link"
                                    data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -104,6 +123,7 @@
                                     <i class="g-header__icon--caret fas fa-caret-down"></i>
                                 </a>
                                 <div class="g-notification dropdown-menu dropdown-menu-right">
+                                    <a th:href="@{/manager/orders/{id}(id=${order.id})}">Подробно</a>
                                     <button class="dropdown-item js-course-detail"
                                             data-bs-toggle="modal"
                                             data-bs-target="#OtderForm"
@@ -182,7 +202,8 @@
                 </ul>
             </nav>
             <p>
-                Всего строк [[${parameter.getTotalElements}]] : Страница [[${parameter.pageNumber}]] из [[${parameter.getTotalPages}]]
+                Всего строк [[${parameter.getTotalElements}]] : Страница [[${parameter.pageNumber}]] из
+                [[${parameter.getTotalPages}]]
             </p>
         </div>
     </main>

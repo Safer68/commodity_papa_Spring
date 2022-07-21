@@ -19,53 +19,41 @@
         <div class="row">
             <div class="col-12">
                 <section class="g-section">
-                    <form method="POST" action="/manager/catalog2" enctype="multipart/form-data">
-                        <div class="mb-5 row">
-                            <label class="col-sm-4 col-form-label">
-                                <img th:src="@{'/'+${product.image}}" class="rounded">
-                                <br>
-                                <p>Выберите файл:<input type="file" value="img" name="file"/></p>
-                            </label>
-                            <label class="col-sm-8 col-form-label">
-                                <div class="form-group">
-                                    <label>Название</label>
-                                    <input type="text" class="form-control" th:field="*{product.name}" name="name">
-                                </div>
+                    <div class="mb-5 row">
+                        <label class="col-sm-4 col-form-label">
+                            <img src="https://avatars.githubusercontent.com/u/60327596?s=400&v=4" class="img-thumbnail" alt="...">
+                        </label>
+                        <label class="col-sm-8 col-form-label">
+                                <h1 class="display-4">Hello, world!</h1>
                                 <hr class="my-4">
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1">Описание</label>
-                                        <textarea class="form-control disabled" th:field="*{product.description}"
-                                                  id="exampleFormControlTextarea1"
+                                        <textarea class="form-control disabled" id="exampleFormControlTextarea1"
                                                   rows="5"></textarea>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Цена</label>
-                                    <input type="number" class="form-control" th:field="*{product.price}" name="price">
-                                </div>
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch1"
-                                           role="switch"
-                                           name="active"
-                                           th:field="*{product.active}"
-                                           checked>
-                                    <label class="custom-control-label" for="customSwitch1">Наличие товара</label>
-                                </div>
-                                <div>
-                                    <label>Категория</label>
-                                <select name="product" th:field="*{product.section}">
-                                    <option selected th:value="*{product.section}" th:text="${product.section}"></option>
-                                    <option th:each="section : ${T(by.nenartovich.Section).values()}"
-                                            th:value="${section}" th:text="${section}"></option>
-                                </select>
-                                </div>
-                            </label>
+                                <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                        </label>
+                    </div>
+                    <div class="d-flex bd-highlight mb-3">
+                        <div class="p-2 bd-highlight">
+                            <body>
+                            <form th:method="POST" th:action="@{/fileUpload}" enctype="multipart/form-data">
+                                <p>Выберите файл:<input type="file" name="file" /></p>
+                                <p><input type="submit" value=«Отправить»/></p>
+                            </form>
+                            </body>
                         </div>
-                        <div>
-                            <button type="submit" class="col-1 bi">Сохранить</button>
+                        <div class="p-2 bd-highlight">
                         </div>
-                    </form>
+                        <div class="ml-auto p-2 bd-highlight">
+                            <a class="btn btn-outline-primary"
+                               href="/manager/catalog" role="button">
+                                <i class="col-1 bi bi-arrow-90deg-left"> Назад</i>
+                            </a>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>

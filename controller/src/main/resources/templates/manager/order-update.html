@@ -5,9 +5,27 @@
 <div class="g-navigation" th:insert="partials/navigation :: manager"/>
 <div class="g-container">
     <main class="g-main container-fluid">
-        <div class="d-flex bd-highlight mb-3">
-            <div class="p-2 bd-highlight"><h2>Новый заказ</h2></div>
-            <div class="ml-auto p-2 bd-highlight">
+        <div class="row">
+            <div class="col-11">
+                <h1>Заказ <span class="g-main__subtitle"
+                                th:text="'№' + ${order.id}+'  Дата заказа: '
+                                + ${#dates.format(order.dateCreate, 'dd-MMM-yyyy')}"></span>
+                    <div th:switch="${order.statusOrder}">
+                        <span th:case="${T(by.nenartovich.StatusOrder).PENDING_PROCESSING}"
+                              class="badge badge-light g-main__subtitle"
+                              th:text="${order.statusOrder.code}">statusOrder</span>
+                        <span th:case="${T(by.nenartovich.StatusOrder).ACCEPTED_BY_MANAGER}"
+                              class="badge badge-primary g-main__subtitle" th:text="${order.statusOrder.code}">statusOrder</span>
+                        <span th:case="${T(by.nenartovich.StatusOrder).SENT}"
+                              class="badge badge-warning g-main__subtitle" th:text="${order.statusOrder.code}">statusOrder</span>
+                        <span th:case="${T(by.nenartovich.StatusOrder).RECEIVED}"
+                              class="badge badge-success g-main__subtitle" th:text="${order.statusOrder.code}">statusOrder</span>
+                        <span th:case="${T(by.nenartovich.StatusOrder).RETURN}"
+                              class="badge badge-danger g-main__subtitle" th:text="${order.statusOrder.code}">statusOrder</span>
+                    </div>
+                </h1>
+            </div>
+            <div class="col-1">
                 <a class="btn btn-outline-primary"
                    href="/manager/orders" role="button">
                     <i class="col-1 bi bi-arrow-90deg-left"> Назад</i>
@@ -21,43 +39,55 @@
                         <h4>Клиент</h4>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Фамилия<br>
-                                <input class="form-control" type="text" th:field="*{client.surname}" name="type"
+                                <input class="form-control " readonly type="text" th:field="*{order.client.surname}"
+                                       name="type"
                                        placeholder="Фамилия"></label>
                             <label class="col-sm-2 col-form-label">Имя<br>
-                                <input class="form-control" type="text" th:field="*{client.name}" name="type"
+                                <input class="form-control" readonly type="text" th:field="*{order.client.name}"
+                                       name="type"
                                        placeholder="Имя"></label>
                             <label class="col-sm-3 col-form-label">Отчество<br>
-                                <input class="form-control" type="text" th:field="*{client.patronymic}" name="type"
+                                <input class="form-control " readonly type="text" th:field="*{order.client.patronymic}"
+                                       name="type"
                                        placeholder="Отчество"></label>
                             <label class="col-sm-2 col-form-label">Телефон<br>
-                                <input class="form-control" type="tel" th:field="*{client.phoneNumber}" name="type"
+                                <input class="form-control" readonly type="tel" th:field="*{order.client.phoneNumber}"
+                                       name="type"
                                        placeholder="Phone"></label>
                             <label class="col-sm-2 col-form-label">Эл. адрес<br>
-                                <input class="form-control" type="email" th:field="*{client.phoneNumber}" name="type"
+                                <input class="form-control" readonly type="email" th:field="*{order.client.email}"
+                                       name="type"
                                        placeholder="email"></label>
                         </div>
-                        <h4>Доставка <span class="g-main__subtitle">(
+                        <h4>Доставка <span class="g-main__subtitle" th:text="'( ' + ${order.delivery.name} + ' )'">(
                             <td>
-                                <select th:field="*{order.delivery.id}">
-                                    <option th:each="deliver : ${deliverys}" th:value="${deliver.id}"
-                                            th:text="${deliver.name}">
-                                    </option>
-                                </select>
+
                             </td>
                             )</span></h4>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Город<br>
-                                <input class="form-control" type="text" th:field="*{address.city}" name="type"
+                            <label class="col-sm-2 col-form-label">Город<br>
+                                <input class="form-control" readonly type="text"
+                                       th:field="*{order.addressDelivery.city}"
+                                       name="type"
                                        placeholder="Город"></label>
                             <label class="col-sm-2 col-form-label">Ул.<br>
-                                <input class="form-control" type="text" th:field="*{address.street}" name="type"
+                                <input class="form-control" readonly type="text"
+                                       th:field="*{order.addressDelivery.street}"
+                                       name="type"
                                        placeholder="Улица"></label>
-                            <label class="col-sm-3 col-form-label">Дом.<br>
-                                <input type="text" class="form-control" value="-"></label>
+                            <label class="col-sm-2 col-form-label">Дом.<br>
+                                <input type="text" class="form-control" readonly
+                                       th:field="*{order.addressDelivery.house}"></label>
                             <label class="col-sm-2 col-form-label">Корп.<br>
-                                <input type="text" class="form-control" value="-"></label>
+                                <input type="text" class="form-control" readonly
+                                       th:field="*{order.addressDelivery.building}"></label>
+                            <label class="col-sm-2 col-form-label">Кв.<br>
+                                <input type="text" class="form-control" readonly
+                                       th:field="*{order.addressDelivery.appt}"></label>
                             <label class="col-sm-2 col-form-label">Индекс<br>
-                                <input class="form-control" type="text" th:field="*{address.postalCode}" name="type"
+                                <input type="text" class="form-control" readonly
+                                       th:field="*{order.addressDelivery.postalCode}"
+                                       name="type"
                                        placeholder="Индекс"></label>
                         </div>
                         <h4>Товар</h4>
@@ -72,15 +102,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <div th:each="product: ${products}">
+                            <div th:each="product: ${order.products}">
                                 <tr>
                                     <td th:text="${product.id}">№</td>
                                     <td th:text="${product.description}">description</td>
                                     <td th:text="${product.price}">price</td>
                                     <td th:text="${product.section}">section</td>
-                                    <td>
-                                        <input type="checkbox" name="productList" th:value="${product.getId()}">
-                                    </td>
                                 </tr>
                             </div>
                             </tbody>
@@ -116,5 +143,4 @@
     </div>
 </div>
 </body>
-
 </html>

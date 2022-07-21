@@ -12,7 +12,7 @@
             <div class="ml-auto p-2 bd-highlight">
                 <a class="btn btn-outline-primary"
                    href="/manager/product/new" role="button">
-                    <i class="col-1 bi bi-plus-circle">&nbsp&nbspДобавить продукт</i>
+                    <i class="col-1 bi bi-plus-circle">&nbsp&nbspДобавить товар</i>
                 </a>
             </div>
         </div>
@@ -28,6 +28,7 @@
                             <th scope="col">Описание</th>
                             <th scope="col">Цена</th>
                             <th scope="col">Категория</th>
+                            <th scope="col">Статус</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
@@ -35,29 +36,34 @@
                         <div th:each="product: ${products}">
                             <tr>
                                 <td th:text="${product.id}">Id</td>
-                                <td >
-                                    <img src="https://avatars.githubusercontent.com/u/60327596?s=400&v=4"
-                                         class="g-sidebar__profile-photo" alt="...">
+                                <td><img th:src="@{'/'+${product.image}}" class="g-sidebar__profile-photo"></td>
+                                <td th:text="${product.name}">name</td>
+                                <td>
+                                    <a class="g-header__nav-link"
+                                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="g-header__icon--caret fas fa-caret-down">Описание</i>
+                                    </a>
+                                    <div class="dropdown-menu p-4 text-muted" style="max-width: 400px;">
+                                        <p th:text="${product.description}"></p>
+                                    </div>
                                 </td>
-                                <td>Название</td>
-                                <td th:text="${product.description}">description</td>
                                 <td th:text="${product.price}">price</td>
                                 <td th:text="${product.section}">section</td>
+                                <td>
+                                    <div th:if="${product.active}">
+                                        <span class="badge badge-success">Активен</span>
+                                    </div>
+                                    <div th:unless="${product.active}">
+                                        <span class="badge badge-danger">Не активен</span>
+                                    </div>
+                                </td>
                                 <td>
                                     <a class="g-header__nav-link"
                                        data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         <i class="g-header__icon--caret fas fa-caret-down"></i>
                                     </a>
                                     <div class="g-notification dropdown-menu dropdown-menu-right">
-                                        <button class="dropdown-item js-course-detail"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#product"
-                                                data-product-description="${product.description}"
-                                                data-product-price="${product.price}"
-                                                data-product="${product.id}"
-                                                data-action="update">
-                                            Информация
-                                        </button>
+                                        <a th:href="@{/manager/product/update/{id}(id=${product.id})}">Редактировать</a>
                                         <form action="${pageContext.request.contextPath}/managerPage?pageName=Catalog"
                                               name="deleting"
                                               method="post">
@@ -74,7 +80,6 @@
                 </section>
             </div>
         </div>
-
     </main>
 </div>
 <footer class="g-footer text-right">
