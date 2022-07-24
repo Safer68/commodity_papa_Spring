@@ -34,6 +34,14 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ProductDto> getByActive(boolean active) {
+
+        return productRepository.getByActive(active).stream()
+                .map(productMapper::productToProductDto)
+                .collect(Collectors.toList());
+    }
+
    /* @Override
     public void updateProduct(ProductDto productDto) {
         productRepository.save(productMapper.productDtoToProduct(productDto));

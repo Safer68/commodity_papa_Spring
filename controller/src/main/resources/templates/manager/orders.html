@@ -29,6 +29,7 @@
             <div class="form-group mx-sm-3 mb-1">Статут</div>
                 <div>
                     <select name="product" th:field="*{filter.statusOrder}">
+                        <option selected th:value="*{filter.statusOrder}"></option>
                         <option th:each="statusOrder : ${T(by.nenartovich.StatusOrder).values()}"
                                 th:value="${statusOrder}" th:text="${statusOrder.getCode}"></option>
                     </select>
@@ -36,11 +37,11 @@
                 <div class="form-group mx-sm-3 mb-2"></div>
                 <input type="hidden" th:value="1" th:name="pageNumber"/>
                 <button type="submit" class="btn btn-primary mb-2">Фильтр</button>
-        <form class="form-inline">
+        </form>
+        <form class="form-inline" th:method="GET" th:action="@{/manager/orders}">
             <input type="hidden" th:value="1" th:name="pageNumber"/>
             <th:block th:text="${filter.cline()}"/>
             <button type="submit" class="btn btn-primary mb-2">Сброс</button>
-        </form>
         </form>
         <div class="row">
             <div class="col-12">

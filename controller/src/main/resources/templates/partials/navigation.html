@@ -73,9 +73,23 @@
 
         <ul class="nav d-flex align-items-center">
             <li class="g-header__nav-item dropdown">
+                <h5 class=" nav-link" sec:authentication="name">userName</h5>
+            </li>
+            <li class="g-header__nav-item dropdown">
+
+                <a class="g-header__nav-link nav-link d-flex active align-items-center"
+                   href="/client/order/new" role="button">
+                    <i class="g-header__icon far bi bi-cart">
+                        <span class="g-header__alert badge-success badge-pill">
+                            <div th:text="${basket.size}">1</div>
+                        </span>
+                    </i>
+                </a>
+            </li>
+
+            <li class="g-header__nav-item dropdown">
                 <a class="g-header__nav-link nav-link dropdown-toggle d-flex active align-items-center"
                    data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <h5 sec:authentication="name">userName</h5>
                     <i class="g-header__icon g-header__icon--caret fas fa-caret-down"></i>
                 </a>
                 <div class="g-notification dropdown-menu dropdown-menu-right">

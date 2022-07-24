@@ -45,6 +45,5 @@ public class OrderFilter {
         this.dateCreateBefore= null;
         this.dateCreateFor= null;
         this.statusOrder= null;
-        this.dateChange= null;
     }
 }

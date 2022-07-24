@@ -11,6 +11,7 @@ public interface ProductService {
     ProductDto findById(Long productId);
 
     List<ProductDto> findAllProductDto();
+    List<ProductDto> getByActive(boolean active);
 
     /*void updateProduct(ProductDto productDto);*/
 

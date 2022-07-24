@@ -1,37 +1,44 @@
 package by.nenartovich.controller;
 
 
+import by.nenartovich.Basket;
 import by.nenartovich.ProductService;
 import by.nenartovich.dto.ProductDto;
 import by.nenartovich.utils.FileNameUtils;
 import by.nenartovich.utils.FileUtils;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.FileItem;
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItem;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping
-/*@SessionAttributes({"person", "parameter", "filter"})*/
+@SessionAttributes("basket")
 public class CatalogController {
 
     private final ProductService productService;
 
     @GetMapping("/manager/catalog")
-    public String getProducts(Model model) {
+    public String getProductsManager(Model model) {
         List<ProductDto> productDtoList = productService.findAllProductDto();
         model.addAttribute("products", productDtoList);
+        model.addAttribute("productDto", new ProductDto());
         return "/manager/catalog";
+    }
+    @GetMapping("/client/catalog")
+    public String getProductClient(@ModelAttribute("basket") Basket basket, Model model) {
+        System.out.println("------------------------------------------------------------");
+        System.out.println(basket.getSize());
+        System.out.println(basket);
+
+        List<ProductDto> productDtoList = productService.getByActive(true);
+        model.addAttribute("products", productDtoList);
+        return "/client/catalog";
     }
 
     @GetMapping("/manager/product/new")
@@ -40,11 +47,22 @@ public class CatalogController {
         return "/manager/product";
     }
 
+    @GetMapping("/client/product/{id}")
+    public String getProductClient(Model model, @PathVariable("id") long id) {
+        ProductDto productDto = productService.findById(id);
+        model.addAttribute("product", productDto);
+        return "/client/product";
+    }
+
+
+
+
+
+
+
     @GetMapping("/manager/product/update/{id}")
     public String getProduct(Model model, @PathVariable("id") long id) {
         ProductDto productDto = productService.findById(id);
-        System.out.println(productDto);
-        System.out.println("--------------------------------------------------------------------------------");
         model.addAttribute("product", productDto);
         return "/manager/product-update";
     }

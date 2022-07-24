@@ -5,7 +5,6 @@ import by.nenartovich.OrderService;
 import by.nenartovich.Parameter;
 import by.nenartovich.dto.ManagerDto;
 import by.nenartovich.dto.OrderDto;
-import by.nenartovich.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @AllArgsConstructor
 @RequestMapping
-@SessionAttributes({"person", "parameter", "filter"})
+@SessionAttributes({"person", "parameter", "filter","basket"})
 public class OrderController {
     private final OrderService orderService;
 
@@ -45,10 +44,16 @@ public class OrderController {
     }
 
     @GetMapping("/manager/orders/{id}")
-    public String getProduct(Model model, @PathVariable("id") long id) {
+    public String getOrdersManager(Model model, @PathVariable("id") long id) {
         OrderDto orderDto = orderService.findById(id);
         model.addAttribute("order", orderDto);
         return "/manager/order";
+    }
+    @GetMapping("/client/orders/{id}")
+    public String getOrdersClient(Model model, @PathVariable("id") long id) {
+        OrderDto orderDto = orderService.findById(id);
+        model.addAttribute("order", orderDto);
+        return "/client/order";
     }
 
 }

@@ -9,27 +9,40 @@
             <div class="p-2 bd-highlight"><h2>Заказы</h2></div>
             <div class="p-2 bd-highlight">
             </div>
-
             <div class="ml-auto p-2 bd-highlight">
-                <a class="btn btn-outline-primary"
-                   href="/client/order/new" role="button">
-                    <i class="col-1 bi bi-plus-circle"> Создать</i>
-                </a>
             </div>
         </div>
+        <span class="g-main__subtitle">Дата создания</span>
         <form class="form-inline">
+            <div class="form-group mx-sm-3 mb-1">Oт</div>
             <div class="form-group mx-sm-3 mb-2">
                 <input type="date" th:value="${filter.dateCreateFor}" th:name="dateCreateFor">
             </div>
+            <div class="form-group mx-sm-3 mb-1">До</div>
             <div class="form-group mx-sm-3 mb-2">
                 <input type="date" th:value="${filter.dateCreateBefore}" th:name="dateCreateBefore">
             </div>
-           <!-- <div class="form-group mx-sm-3 mb-2">
-                <input type="text" th:value="${filter.client}" th:name="client">
-            </div>-->
+            <div class="form-group mx-sm-3 mb-1">Статут</div>
+            <div>
+                <select name="product" th:field="*{filter.statusOrder}">
+                    <option selected th:value="*{filter.statusOrder}"></option>
+                    <option th:each="statusOrder : ${T(by.nenartovich.StatusOrder).values()}"
+                            th:value="${statusOrder}" th:text="${statusOrder.getCode}"></option>
+                </select>
+            </div>
+            <div class="form-group mx-sm-3 mb-2"></div>
             <input type="hidden" th:value="1" th:name="pageNumber"/>
             <button type="submit" class="btn btn-primary mb-2">Фильтр</button>
+            <div class="form-group mx-sm-3 mb-1"></div>
+            <button form="reset" type="submit" class="btn btn-primary mb-2">Сброс</button>
         </form>
+        <form id="reset" class="form-inline" th:method="GET" th:action="@{/client/orders}">
+            <input type="hidden" th:value="1" th:name="pageNumber"/>
+            <input type="hidden" th:value="${null}" th:name="dateCreateFor"/>
+            <input type="hidden" th:value="${null}" th:name="dateCreateBefore"/>
+            <input type="hidden" th:value="${null}" th:name="statusOrder"/>
+        </form>
+
 
         <div class="row">
             <div class="col-12">
@@ -83,8 +96,13 @@
                         </thead>
                         <tbody>
                         <div th:each="order: ${orders}">
-                            <div th:if="${order.status}">
-                                <tr class="table-warning">
+                            <div th:switch="${order.statusOrder}">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).PENDING_PROCESSING}" class="table-light">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).ACCEPTED_BY_MANAGER}"
+                                    class="table-primary">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).SENT}" class="bg-warning">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).RECEIVED}" class="table-success">
+                                <tr th:case="${T(by.nenartovich.StatusOrder).RETURN}" class="table-danger">
                             </div>
                             <td th:text="${order.id}">Id</td>
                             <td th:text="${#dates.format(order.dateCreate, 'dd-MMM-yyyy')}">dataCreate</td>
@@ -92,14 +110,14 @@
                             <td>
                                 <select name="product">
                                     <div th:each="product : ${order.products}">
-                                        <option th:text="${product.description}">description</option>
+                                        <option th:text="${product.name}">description</option>
                                     </div>
                                 </select>
                             </td>
                             <td th:text="${order.client.name}">client</td>
                             <td th:text="${order.price}">client</td>
                             <td th:text="${order.delivery.name}">delivery</td>
-                            <td th:text="${order.status}">delivery</td>
+                            <td th:text="${order.statusOrder.code}">statusOrder</td>
                             <td>
                                 <a class="g-header__nav-link"
                                    data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -107,21 +125,8 @@
                                     <i class="g-header__icon--caret fas fa-caret-down"></i>
                                 </a>
                                 <div class="g-notification dropdown-menu dropdown-menu-right">
-                                    <button class="dropdown-item js-course-detail"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#OtderForm"
-                                            data-сreate="${order}"
-                                            data-order-client-name="${order.client.name}"
-                                            order-price="${order.price}">
-                                        Информация
-                                    </button>
-                                    <form action="${pageContext.request.contextPath}/managerPage"
-                                          name="deleting"
-                                          method="post">
-                                        <input type="hidden" name="orderId" value="${order.id}"/>
-                                        <input type="hidden" name="pageName" value="Order"/>
-                                        <button class="dropdown-item">Информация</button>
-                                    </form>
+                                    <a class="dropdown-item js-course-detail"
+                                       th:href="@{/client/orders/{id}(id=${order.id})}">Подробно</a>
                                 </div>
                             </td>
                             </tr>
@@ -136,7 +141,6 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:if="${parameter.pageNumber > 1}">
-                    <li class="page-item" th:if="${parameter.pageNumber > 1}">
                         <form>
                             <input type="hidden" th:value="1" th:name="pageNumber"/>
                             <input class="page-link" type="submit" value="Первая">
@@ -146,7 +150,7 @@
                         <span class="page-link" aria-hidden="true">Первая</span>
                     </li>
                     <li class="page-item " th:if="${parameter.pageNumber > 1}">
-                        <form>
+                        <form method="get" th:action="@{/client/orders}">
                             <input type="hidden" th:value="${parameter.pageNumber - 1}" th:name="pageNumber"/>
                             <input class="page-link" type="submit" value="&laquo;">
                         </form>
@@ -156,7 +160,7 @@
                     </li>
                     <span th:each="i: ${#numbers.sequence(1, parameter.getTotalPages)}">
                           <li class="page-item" th:if="${i != parameter.pageNumber}">
-                          <form>
+                          <form method="get" th:action="@{/client/orders}">
                           <input type="hidden" th:value="${i}" th:name="pageNumber"/>
                           <input class="page-link" type="submit" th:value="${i}">
                           </form>
@@ -166,7 +170,7 @@
                         </li>
                     </span>
                     <li class="page-item " th:if="${parameter.pageNumber < parameter.getTotalPages}">
-                        <form>
+                        <form method="get" th:action="@{/client/orders}">
                             <input type="hidden" th:value="${parameter.pageNumber + 1}" th:name="pageNumber"/>
                             <input class="page-link" type="submit" value="&raquo;">
                         </form>
@@ -175,7 +179,7 @@
                         <span class="page-link" aria-hidden="true">&raquo;</span>
                     </li>
                     <li class="page-item" th:if="${parameter.pageNumber < parameter.getTotalPages}">
-                        <form>
+                        <form method="get" th:action="@{/client/orders}">
                             <input type="hidden" th:value="${parameter.getTotalPages}" th:name="pageNumber"/>
                             <input class="page-link" type="submit" value="Последняя">
                         </form>
@@ -186,7 +190,8 @@
                 </ul>
             </nav>
             <p>
-                Всего строк [[${parameter.getTotalElements}]] : Страница [[${parameter.pageNumber}]] из [[${parameter.getTotalPages}]]
+                Всего строк [[${parameter.getTotalElements}]] : Страница [[${parameter.pageNumber}]] из
+                [[${parameter.getTotalPages}]]
             </p>
         </div>
     </main>
@@ -195,20 +200,49 @@
     <span class="e-site-emphasize">Commodity Papa</span>
 </footer>
 <script th:src="@{/js/custom.js}"></script>
-<div class="modal fade" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+
+
+<div class="modal fade " id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <form action="${pageContext.request.contextPath}/managerPage" method="post">
+            <form id="mod" th:action="@{/client/update}" method="post">
                 <div class="modal-body">
-                    Name <input th:text="${manager}" name="newName" class='lf--input'
-                                type="Name"><br><br>
-                    <input type="hidden" name="update" value="update"/>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Фамилия<br>
+                            <input class="form-control" type="text" th:field="*{person.surname}"></label>
+                        <label class="col-sm-2 col-form-label">Имя<br>
+                            <input class="form-control" type="text" th:field="*{person.name}"></label>
+                        <label class="col-sm-3 col-form-label">Отчество<br>
+                            <input class="form-control" type="text" th:field="*{person.patronymic}"></label>
+                        <label class="col-sm-2 col-form-label">Телефон<br>
+                            <input class="form-control" type="text" th:field="*{person.phoneNumber}"></label>
+                        <label class="col-sm-2 col-form-label">Эл. адрес<br>
+                            <input class="form-control" type="text" th:field="*{person.email}"></label>
+                    </div>
+                    <h5>Адрес доставки</h5>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Город<br>
+                            <input class="form-control" type="text" th:field="*{person.address.city}"></label>
+                        <label class="col-sm-2 col-form-label">Ул.<br>
+                            <input class="form-control" type="text" th:field="*{person.address.street}"></label>
+                        <label class="col-sm-2 col-form-label">Дом<br>
+                            <input class="form-control" type="text" th:field="*{person.address.house}"></label>
+                        <label class="col-sm-2 col-form-label">Корп.<br>
+                            <input class="form-control" type="text" th:field="*{person.address.building}"></label>
+                        <label class="col-sm-2 col-form-label">кв.<br>
+                            <input class="form-control" type="text" th:field="*{person.address.appt}"></label>
+                        <label class="col-sm-2 col-form-label">Индекс<br>
+                            <input class="form-control" type="text" th:field="*{person.address.postalCode}"></label>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary">Save</button>
+                    <button form="mod" class="btn btn-secondary">Save</button>
                 </div>
             </form>
         </div>
