@@ -28,6 +28,7 @@ public class ManagerController {
     private final ClientService clientService;
     private final DeliveryService deliveryService;
     private final ProductService productService;
+    private final UserService userService;
 
     @GetMapping
     public String getOrders(@ModelAttribute("parameter") Parameter parameter,
@@ -59,6 +60,10 @@ public class ManagerController {
                 .map(productService::findById)
                 .collect(toList());
         ManagerDto managerDto = managerService.findByName(principal.getName());
+        UserDto userDto = UserDto.builder()
+                .userName(clientDto.getEmail())
+                .build();
+        clientDto.setUser(userService.saveUser(userDto,"CLIENT"));
         clientDto.setAddress(addressDto);
         orderDto.setClient(clientService.save(clientDto));
         orderDto.setProducts(productDtos);

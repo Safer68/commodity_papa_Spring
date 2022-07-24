@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col-12">
                 <section class="g-section">
-                    <form th:method="POST" th:action="@{/manager/orders}" onsubmit="return validateForm()">
+                    <form th:method="PATCH" th:action="@{/manager/orders/{id}(id=${order.id})}" onsubmit="return validateForm()">
                         <h4>Клиент</h4>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Фамилия<br>

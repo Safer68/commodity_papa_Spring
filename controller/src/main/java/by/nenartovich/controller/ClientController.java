@@ -55,11 +55,9 @@ public class ClientController {
         return "redirect:/client/orders";
     }
 
-    @PostMapping("/update")
+    @PatchMapping("/update")
     public String updateClient(@ModelAttribute("person") ClientDto clientDto) {
-        System.out.println("----------------d------------------------d-------------------------");
-        System.out.println(clientDto);
-        clientService.save(clientDto);
+        clientService.updateClient(clientDto);
         return "redirect:/client/orders";
     }
 

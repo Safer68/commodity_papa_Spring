@@ -19,30 +19,34 @@
         <div class="row">
             <div class="col-12">
                 <section class="g-section">
-                    <form method="POST" action="/manager/catalog2" enctype="multipart/form-data">
+                    <form th:method="PATCH" th:action="@{/manager/product/update/{id}(id=${product.getId()})}"
+                          enctype="multipart/form-data">
                         <div class="mb-5 row">
                             <label class="col-sm-4 col-form-label">
-                                <img th:src="@{'/'+${product.image}}" class="rounded">
+                                <img th:src="@{'/'+${product.image}}" class="img-thumbnail">
                                 <br>
-                                <p>Выберите файл:<input type="file" value="img" name="file"/></p>
+                                <p>Выберите файл:<input type="file" th:value="img" th:name="file"/></p>
                             </label>
                             <label class="col-sm-8 col-form-label">
                                 <div class="form-group">
                                     <label>Название</label>
-                                    <input type="text" class="form-control" th:field="*{product.name}" name="name">
+                                    <input type="text" class="form-control" th:value="*{product.name}"
+                                           th:field="*{product.name}">
                                 </div>
                                 <hr class="my-4">
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="exampleFormControlTextarea1">Описание</label>
-                                        <textarea class="form-control disabled" th:field="*{product.description}"
+                                        <textarea class="form-control disabled" th:value="*{product.description}"
+                                                  th:field="*{product.description}"
                                                   id="exampleFormControlTextarea1"
                                                   rows="5"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Цена</label>
-                                    <input type="number" class="form-control" th:field="*{product.price}" name="price">
+                                    <input type="text" class="form-control" th:value="*{product.price}"
+                                           th:field="*{product.price}" name="price">
                                 </div>
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="customSwitch1"
@@ -54,15 +58,17 @@
                                 </div>
                                 <div>
                                     <label>Категория</label>
-                                <select name="product" th:field="*{product.section}">
-                                    <option selected th:value="*{product.section}" th:text="${product.section}"></option>
-                                    <option th:each="section : ${T(by.nenartovich.Section).values()}"
-                                            th:value="${section}" th:text="${section}"></option>
-                                </select>
+                                    <select name="product" th:field="*{product.section}">
+                                        <option selected th:value="*{product.section}"
+                                                th:text="${product.section}"></option>
+                                        <option th:each="section : ${T(by.nenartovich.Section).values()}"
+                                                th:value="${section}" th:text="${section}"></option>
+                                    </select>
                                 </div>
                             </label>
                         </div>
                         <div>
+                            <input type="hidden" th:value="*{product.image}" th:field="*{product.image}">
                             <button type="submit" class="col-1 bi">Сохранить</button>
                         </div>
                     </form>

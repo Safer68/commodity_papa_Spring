@@ -5,6 +5,7 @@ import by.nenartovich.ClientService;
 import by.nenartovich.dao.ClientRepository;
 import by.nenartovich.dto.ClientDto;
 import by.nenartovich.dto.OrderDto;
+import by.nenartovich.entity.Client;
 import by.nenartovich.mappers.ClientMapper;
 import by.nenartovich.mappers.OrderMapper;
 import lombok.AllArgsConstructor;
@@ -32,10 +33,7 @@ public class ClientServiceImpl implements ClientService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void updateClient(ClientDto clientDto) {
-        clientRepository.save(clientMapper.clientDtoToClient(clientDto));
-    }
+
 
     @Override
     public List<OrderDto> getClientOrders(Long clientId) {
@@ -43,6 +41,12 @@ public class ClientServiceImpl implements ClientService {
                 .map(orderMapper::orderToOrderDto)
                 .collect(Collectors.toList());
     }*/
+
+    @Override
+    public void updateClient(ClientDto clientDto) {
+        Client client = clientRepository.getReferenceById(clientDto.getId());
+        clientRepository.save(clientMapper.updateClientFromClientDto(clientDto,client));
+    }
 
     @Override
     public ClientDto findByName(String clientName) {

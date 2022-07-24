@@ -3,6 +3,7 @@ package by.nenartovich.controller;
 import by.nenartovich.OrderFilter;
 import by.nenartovich.OrderService;
 import by.nenartovich.Parameter;
+import by.nenartovich.StatusOrder;
 import by.nenartovich.dto.ManagerDto;
 import by.nenartovich.dto.OrderDto;
 import lombok.AllArgsConstructor;
@@ -48,6 +49,12 @@ public class OrderController {
         OrderDto orderDto = orderService.findById(id);
         model.addAttribute("order", orderDto);
         return "/manager/order";
+    }
+    @PatchMapping("/manager/orders/{id}")
+    public String update(@ModelAttribute("order") OrderDto orderDto) {
+        orderDto.setStatusOrder(StatusOrder.ACCEPTED_BY_MANAGER);
+        orderService.updateOrder(orderDto);
+        return "redirect:/manager/orders";
     }
     @GetMapping("/client/orders/{id}")
     public String getOrdersClient(Model model, @PathVariable("id") long id) {

@@ -10,9 +10,8 @@ public interface ClientService {
 
     List<ClientDto> findAllClientDto();
 
-    void updateClient(ClientDto clientDto);
-
     List<OrderDto> getClientOrders(Long clientId);*/
 
+    void updateClient(ClientDto clientDto);
     ClientDto save(ClientDto clientDto);
 }

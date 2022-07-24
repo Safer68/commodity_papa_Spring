@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 @RequestMapping
-@SessionAttributes("basket")
+@SessionAttributes({"basket", "person"})
 public class CatalogController {
 
     private final ProductService productService;
@@ -30,21 +30,18 @@ public class CatalogController {
         model.addAttribute("productDto", new ProductDto());
         return "/manager/catalog";
     }
-    @GetMapping("/client/catalog")
-    public String getProductClient(@ModelAttribute("basket") Basket basket, Model model) {
-        System.out.println("------------------------------------------------------------");
-        System.out.println(basket.getSize());
-        System.out.println(basket);
-
-        List<ProductDto> productDtoList = productService.getByActive(true);
-        model.addAttribute("products", productDtoList);
-        return "/client/catalog";
-    }
 
     @GetMapping("/manager/product/new")
     public String getProduct(Model model) {
         model.addAttribute("product", new ProductDto());
         return "/manager/product";
+    }
+
+    @GetMapping("/client/catalog")
+    public String getProductClient(@ModelAttribute("basket") Basket basket, Model model) {
+        List<ProductDto> productDtoList = productService.getByActive(true);
+        model.addAttribute("products", productDtoList);
+        return "/client/catalog";
     }
 
     @GetMapping("/client/product/{id}")
@@ -54,31 +51,21 @@ public class CatalogController {
         return "/client/product";
     }
 
-
-
-
-
-
-
     @GetMapping("/manager/product/update/{id}")
     public String getProduct(Model model, @PathVariable("id") long id) {
         ProductDto productDto = productService.findById(id);
         model.addAttribute("product", productDto);
-        return "/manager/product-update";
+        return "/manager/product";
     }
 
-    @PostMapping("/manager/catalog2")
+    @PostMapping("/manager/catalog")
     public String createProducts(@ModelAttribute("product") ProductDto productDto,
                                  @Value("${web.upload-path}") String path,
-                                 @RequestParam ("file") MultipartFile file) {
-        System.out.println(productDto);
+                                 @RequestParam("file") MultipartFile file) {
         if (0 != file.getSize()) {
             String fileName = FileNameUtils.getFileName(file.getOriginalFilename());
-            System.out.println(file.getOriginalFilename() + "45");
-            System.out.println(file.getSize());
             if (FileUtils.upload(file, path, fileName)) {
                 productDto.setImage(fileName);
-                System.out.println(fileName + "--------------------------------------------------------------------------");
             }
         } else {
             productDto.setImage("fbf18823c6a04177bd97b146d2341388.png");
@@ -90,18 +77,12 @@ public class CatalogController {
     @PatchMapping("/manager/product/update/{id}")
     public String proUpdate(@ModelAttribute("product") ProductDto productDto,
                             @Value("${web.upload-path}") String path,
-                            @RequestParam ("file") MultipartFile file) {
-        System.out.println(productDto);
+                            @RequestParam("file") MultipartFile file) {
         if (0 != file.getSize()) {
             String fileName = FileNameUtils.getFileName(file.getOriginalFilename());
-            System.out.println(file.getOriginalFilename() + "45");
-            System.out.println(file.getSize());
             if (FileUtils.upload(file, path, fileName)) {
                 productDto.setImage(fileName);
-                System.out.println(fileName + "--------------------------------------------------------------------------");
             }
-        } else {
-            productDto.setImage("fbf18823c6a04177bd97b146d2341388.png");
         }
         productService.save(productDto);
         return "redirect:/manager/catalog";

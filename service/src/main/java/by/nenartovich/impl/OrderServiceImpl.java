@@ -39,9 +39,11 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }*/
 
-    /*@Override
+    @Override
     public void updateOrder(OrderDto orderDto) {
-    }*/
+        Order order = orderRepository.getReferenceById(orderDto.getId());
+        orderRepository.save(orderMapper.updateOrderFromOrderDto(orderDto,order));
+    }
 
     @Override
     public OrderDto save(OrderDto orderDto) {
