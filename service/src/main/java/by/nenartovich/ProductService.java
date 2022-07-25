@@ -6,14 +6,12 @@ import by.nenartovich.dto.ProductDto;
 import java.util.List;
 
 public interface ProductService {
-     void save(ProductDto productDto);
+    void save(ProductDto productDto);
 
     ProductDto findById(Long productId);
 
     List<ProductDto> findAllProductDto();
+
     List<ProductDto> getByActive(boolean active);
 
-    /*void updateProduct(ProductDto productDto);*/
-
-    /*void removeProduct(Long productId);*/
 }

@@ -19,33 +19,11 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final ClientMapper clientMapper;
-    private final OrderMapper orderMapper;
-
-   /* @Override
-    public ClientDto findById(Long clientId) {
-        return clientMapper.clientToClientDto(clientRepository.getReferenceById(clientId));
-    }
-
-    @Override
-    public List<ClientDto> findAllClientDto() {
-        return clientRepository.findAll().stream()
-                .map(clientMapper::clientToClientDto)
-                .collect(Collectors.toList());
-    }
-
-
-
-    @Override
-    public List<OrderDto> getClientOrders(Long clientId) {
-        return clientRepository.getClientOrders(clientId).stream()
-                .map(orderMapper::orderToOrderDto)
-                .collect(Collectors.toList());
-    }*/
 
     @Override
     public void updateClient(ClientDto clientDto) {
         Client client = clientRepository.getReferenceById(clientDto.getId());
-        clientRepository.save(clientMapper.updateClientFromClientDto(clientDto,client));
+        clientRepository.save(clientMapper.updateClientFromClientDto(clientDto, client));
     }
 
     @Override

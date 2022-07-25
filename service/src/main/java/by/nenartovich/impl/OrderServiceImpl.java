@@ -34,15 +34,10 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.orderToOrderDto(orderRepository.getReferenceById(orderId));
     }
 
-   /* @Override
-    public List<OrderDto> findAllOrderDto() {
-        return null;
-    }*/
-
     @Override
     public void updateOrder(OrderDto orderDto) {
         Order order = orderRepository.getReferenceById(orderDto.getId());
-        orderRepository.save(orderMapper.updateOrderFromOrderDto(orderDto,order));
+        orderRepository.save(orderMapper.updateOrderFromOrderDto(orderDto, order));
     }
 
     @Override
@@ -53,24 +48,6 @@ public class OrderServiceImpl implements OrderService {
         orderDto.setDateChange(new Date());
         return orderMapper.orderToOrderDto(orderRepository.save(orderMapper.orderDtoToOrder(orderDto)));
     }
-
-    /*@Override
-    public Page<OrderDto> findPaginated(Pageable pageable) {
-        List<OrderDto> orders = orderRepository.findAll().stream()
-                .map(orderMapper::orderToOrderDto)
-                .collect(Collectors.toList());
-        List<OrderDto> list;
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        if (orders.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, orders.size());
-            list = orders.subList(startItem, toIndex);
-        }
-        return new PageImpl<OrderDto>(list, PageRequest.of(currentPage, pageSize), orders.size());
-    }*/
 
     public Page<OrderDto> findAllPaginated(OrderFilter orderFilter, Parameter parameter) {
         Specification<Order> orderSpecification =

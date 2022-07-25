@@ -26,72 +26,10 @@ public class ManagerServiceImpl implements ManagerService {
         this.orderMapper = orderMapper;
     }
 
-   /* @Override
-    public ManagerDto findById(Long managerId) {
-        return managerMapper.managerToManagerDto(managerRepository.getReferenceById(managerId));
-    }*/
-
     @Override
     public ManagerDto findByName(String managerName) {
 
         return managerMapper.managerToManagerDto(managerRepository.findByUserName(managerName));
     }
-
-   /* @Override
-    public List<ManagerDto> findAllManagerDto() {
-        return managerRepository.findAll().stream()
-                .map(managerMapper::managerToManagerDto)
-                .collect(Collectors.toList());
-    }*/
-
-    /*@Override
-    public List<OrderDto> getManagerOrders(Long managerId) {
-        return managerRepository.getManagerOrders(managerId).stream()
-                .map(orderMapper::orderToOrderDto)
-                .collect(Collectors.toList());
-    }*/
-
-    /*@Override
-    public List<OrderDto> getManagerOrders(String managerName) {
-        return managerRepository.getManagerOrders(managerName).stream()
-                .map(orderMapper::orderToOrderDto)
-                .collect(Collectors.toList());
-    }*/
-
-   /* @Override
-    public void updateManager(ManagerDto managerDto) {
-        *//*managerRepository.save(managerMapper.updateManagerFromManagerDto(managerDto
-                ,managerRepository.getReferenceById(managerDto.getId())));*//*
-        managerRepository.save(managerMapper.managerDtoToManager(managerDto));
-    }*/
-
-   /* @Override
-    public void createManager(Long managerId, String name) {
-
-    }*/
-
-    /*@Override
-    public Page<OrderDto> findPaginated(Pageable pageable, Long managerId) {
-        List<OrderDto> orders = getManagerOrders(managerId);
-        List<OrderDto> list;
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        if (orders.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, orders.size());
-            list = orders.subList(startItem, toIndex);
-        }
-        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), orders.size());
-    }*/
-
-    /*@Override
-    public Page<OrderDto> findAllPaginated(int pageNumber, String sortField, String sortDirection, Long managerId) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
-        Pageable paged = PageRequest.of(pageNumber - 1, 5, sort);
-        return orderRepository.findAll(paged).map(orderMapper::orderToOrderDto);
-    }*/
 
 }

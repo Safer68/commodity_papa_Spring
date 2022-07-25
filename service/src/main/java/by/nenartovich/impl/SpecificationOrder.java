@@ -62,13 +62,4 @@ public class SpecificationOrder {
             return criteriaBuilder.and(predicatesMain.toArray(new Predicate[predicatesMain.size()]));
         };
     }
-    /*  public static Specification<Horse> getHorseByPriceSpec(Double price) {
-        return (root, query, criteriaBuilder) -> {
-            List<Predicate> predicatesMain = new ArrayList<>();
-            if (price != null) {
-                predicatesMain.add(criteriaBuilder.like(root.get(Horse_.PRICE).as(String.class), "%" + price + "%"));
-            }
-            return criteriaBuilder.and(predicatesMain.toArray(new Predicate[predicatesMain.size()]));
-        };
-    }*/
 }

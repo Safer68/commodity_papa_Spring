@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 public class Basket {
+    private static final int INT = 0;
     @Builder.Default
     private List<ProductDto> basket = new ArrayList<>();
     @Builder.Default
-    private Integer size = 0;
+    private Integer size = INT;
 
     public void add(ProductDto productDto) {
         this.basket.add(productDto);
@@ -33,6 +31,7 @@ public class Basket {
         basket.remove(productDto);
         this.size = basket.size();
     }
+
     public void clear() {
         basket.clear();
         this.size = basket.size();

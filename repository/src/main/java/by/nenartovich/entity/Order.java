@@ -60,6 +60,9 @@ public class Order {
     @Column(name = "track_number")
     private String trackNumber;
 
+    @Column(name = "SMS_sending")
+    private String smsSending;
+
     @ElementCollection
     @CollectionTable(name = "product_amount", joinColumns = @JoinColumn(name = "order_id"))
     @Column(name = "productt")

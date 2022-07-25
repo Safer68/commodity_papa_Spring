@@ -23,6 +23,17 @@ import static java.util.stream.Collectors.toList;
 @SessionAttributes({"person", "parameter", "filter"})
 public class ManagerController {
 
+    private static final String PARAMETER = "parameter";
+    private static final String FILTER = "filter";
+    private static final String PERSON = "person";
+    private static final String REDIRECT_MANAGER_ORDERS = "redirect:/manager/orders";
+    private static final String ORDER = "order";
+    private static final String CLIENT = "client";
+    private static final String ADDRESS = "address";
+    private static final String DELIVERYS = "deliverys";
+    private static final String PRODUCTS = "products";
+    private static final String MANAGER_ORDER_CREATE = "/manager/order-create";
+    private static final String PRODUCT_LIST = "productList";
     private final ManagerService managerService;
     private final OrderService orderService;
     private final ClientService clientService;
@@ -31,11 +42,11 @@ public class ManagerController {
     private final UserService userService;
 
     @GetMapping
-    public String getOrders(@ModelAttribute("parameter") Parameter parameter,
-                            @ModelAttribute("filter") OrderFilter orderFilter,
-                            @ModelAttribute("person") ManagerDto managerDto) {
+    public String getOrders(@ModelAttribute(PARAMETER) Parameter parameter,
+                            @ModelAttribute(FILTER) OrderFilter orderFilter,
+                            @ModelAttribute(PERSON) ManagerDto managerDto) {
         orderFilter.setManagerName(managerDto.getName());
-        return "redirect:/manager/orders";
+        return REDIRECT_MANAGER_ORDERS;
     }
 
     @GetMapping("/order/new")
@@ -43,19 +54,19 @@ public class ManagerController {
         OrderDto orderDto = new OrderDto();
         ClientDto clientDto = new ClientDto();
         AddressDto addressDto = new AddressDto();
-        model.addAttribute("order", orderDto);
-        model.addAttribute("client", clientDto);
-        model.addAttribute("address", addressDto);
-        model.addAttribute("deliverys", deliveryService.findAllDeliveryDto());
-        model.addAttribute("products", productService.findAllProductDto());
-        return "/manager/order-create";
+        model.addAttribute(ORDER, orderDto);
+        model.addAttribute(CLIENT, clientDto);
+        model.addAttribute(ADDRESS, addressDto);
+        model.addAttribute(DELIVERYS, deliveryService.findAllDeliveryDto());
+        model.addAttribute(PRODUCTS, productService.findAllProductDto());
+        return MANAGER_ORDER_CREATE;
     }
 
     @PostMapping("/orders")
-    public String create(@ModelAttribute("order") OrderDto orderDto,
-                         @RequestParam("productList") List<Long> answerList,
-                         @ModelAttribute("address") AddressDto addressDto,
-                         @ModelAttribute("client") ClientDto clientDto, Principal principal) {
+    public String create(@ModelAttribute(ORDER) OrderDto orderDto,
+                         @RequestParam(PRODUCT_LIST) List<Long> answerList,
+                         @ModelAttribute(ADDRESS) AddressDto addressDto,
+                         @ModelAttribute(CLIENT) ClientDto clientDto, Principal principal) {
         List<ProductDto> productDtos = answerList.stream()
                 .map(productService::findById)
                 .collect(toList());
@@ -63,17 +74,22 @@ public class ManagerController {
         UserDto userDto = UserDto.builder()
                 .userName(clientDto.getEmail())
                 .build();
-        clientDto.setUser(userService.saveUser(userDto,"CLIENT"));
+        clientDto.setUser(userService.saveUser(userDto, "CLIENT"));
         clientDto.setAddress(addressDto);
+        orderDto.setAddressDelivery(clientDto.getAddress());
         orderDto.setClient(clientService.save(clientDto));
         orderDto.setProducts(productDtos);
         orderDto.setPrice(productDtos.stream()
                 .mapToDouble(ProductDto::getPrice)
                 .sum());
         orderDto.setManager(managerDto);
-        orderDto.setStatusOrder(StatusOrder.ACCEPTED_BY_MANAGER);
+        if (orderDto.getTrackNumber() == null || "".equals(orderDto.getTrackNumber())) {
+            orderDto.setStatusOrder(StatusOrder.ACCEPTED_BY_MANAGER);
+        } else {
+            orderDto.setStatusOrder(StatusOrder.SENT);
+        }
         orderService.save(orderDto);
-        return "redirect:/manager/orders";
+        return REDIRECT_MANAGER_ORDERS;
     }
 
     @ModelAttribute("person")

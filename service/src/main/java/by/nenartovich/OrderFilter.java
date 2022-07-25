@@ -14,7 +14,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderFilter {
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final String PATTERN = "yyyy-MM-dd";
+    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat(PATTERN);
     private String clientName;
     private String managerName;
     private String dateCreateBefore;
@@ -40,10 +41,11 @@ public class OrderFilter {
             throw new RuntimeException(e);
         }
     }
-    public void cline(){
 
-        this.dateCreateBefore= null;
-        this.dateCreateFor= null;
-        this.statusOrder= null;
+    public void cline() {
+
+        this.dateCreateBefore = null;
+        this.dateCreateFor = null;
+        this.statusOrder = null;
     }
 }

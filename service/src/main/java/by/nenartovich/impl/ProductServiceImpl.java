@@ -42,13 +42,4 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-   /* @Override
-    public void updateProduct(ProductDto productDto) {
-        productRepository.save(productMapper.productDtoToProduct(productDto));
-    }*/
-
-    /*@Override
-    public void removeProduct(Long productId) {
-        productRepository.deleteById(productId);
-    }*/
 }
