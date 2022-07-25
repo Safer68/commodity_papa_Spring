@@ -80,8 +80,8 @@ public class OrderController {
     @PostMapping("/manager/orders/SMS/{id}")
     public String getSMS(@PathVariable(ID) long id) {
         OrderDto orderDto = orderService.findById(id);
-        orderDto.setSmsSending(Arrays.toString(simpleClient.getSMS("+375257056517")));
+        orderDto.setSmsSending(Arrays.toString(simpleClient.getSMS(orderDto.getClient().getPhoneNumber())));
         orderService.updateOrder(orderDto);
-        return REDIRECT_MANAGER_ORDERS;
+        return "redirect:/manager/orders/"+id;
     }
 }
