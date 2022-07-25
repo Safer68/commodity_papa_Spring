@@ -41,7 +41,7 @@ public class Client {
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<Order> orders = new java.util.LinkedHashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 }

@@ -37,7 +37,9 @@
                             <tr>
                                 <td th:text="${product.id}">Id</td>
                                 <td><img th:src="@{'/'+${product.image}}" class="g-sidebar__profile-photo"></td>
-                                <td th:text="${product.name}">name</td>
+                                <td>
+                                    <a th:href="@{/manager/product/update/{id}(id=${product.id})}" th:text="${product.name}">name</a>
+                                </td>
                                 <td>
                                     <a class="g-header__nav-link"
                                        data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -55,22 +57,6 @@
                                     </div>
                                     <div th:unless="${product.active}">
                                         <span class="badge badge-danger">Не активен</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <a class="g-header__nav-link"
-                                       data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="g-header__icon--caret fas fa-caret-down"></i>
-                                    </a>
-                                    <div class="g-notification dropdown-menu dropdown-menu-right">
-                                        <a th:href="@{/manager/product/update/{id}(id=${product.id})}">Редактировать</a>
-                                        <form action="${pageContext.request.contextPath}/managerPage?pageName=Catalog"
-                                              name="deleting"
-                                              method="post">
-                                            <input type="hidden" name="productId" value="${product.id}"/>
-                                            <input type="hidden" name="action" value="delete"/>
-                                            <button class="dropdown-item">Удалить</button>
-                                        </form>
                                     </div>
                                 </td>
                             </tr>

@@ -35,7 +35,8 @@
         <div class="row">
             <div class="col-12">
                 <section class="g-section">
-                    <form th:method="POST" th:action="@{/manager/orders}" onsubmit="return validateForm()">
+                    <form th:method="PATCH" th:action="@{/manager/orders/{id}(id=${order.id})}"
+                          onsubmit="return validateForm()">
                         <h4>Клиент</h4>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Фамилия<br>
@@ -64,6 +65,11 @@
 
                             </td>
                             )</span></h4>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Номер отслеживания<br>
+                                <input class="form-control" type="text" th:field="*{order.trackNumber}" name="type"
+                                       placeholder="Номер отслеживания"></label>
+                        </div>
                         <div class="mb-3 row">
                             <label class="col-sm-2 col-form-label">Город<br>
                                 <input class="form-control" readonly type="text"
@@ -114,6 +120,16 @@
                         </table>
                         <input type="submit" value="Сохранить">
                     </form>
+                    <form th:method="POST" th:action="@{/manager/orders/SMS/{id}(id=${order.id})}">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea">Описание</label>
+                            <textarea class="form-control " readonly th:value="*{order.smsSending}"
+                                      th:field="*{order.smsSending}"
+                                      id="exampleFormControlTextarea"
+                                      rows="10"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </section>
             </div>
         </div>
@@ -123,6 +139,7 @@
     <span class="e-site-emphasize">Commodity Papa</span>
 </footer>
 <script th:src="@{/js/custom.js}"></script>
+
 <div class="modal fade" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

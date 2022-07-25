@@ -1,31 +1,37 @@
 package by.nenartovich.controller;
 
 import by.nenartovich.Basket;
-import by.nenartovich.dto.ProductDto;
+import by.nenartovich.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @AllArgsConstructor
 @Controller
+@SessionAttributes("basket")
 public class BasketController {
 
-    private final Basket basket;
+    private static final String PRODUCT_ID = "productId";
+    private static final String BASKET = "basket";
+    private static final String REDIRECT_CLIENT_ORDER_NEW = "redirect:/client/order/new";
+    private final ProductService productService;
 
-    @GetMapping("/basket")
-    public String get(Model model) {
-        List<ProductDto> productDtos = basket.getBasket();
-        model.addAttribute("basket", productDtos);
-        model.addAttribute("product", new ProductDto());
-        return "basket";
+    @PostMapping("/basket/add")
+    public String add(@ModelAttribute(PRODUCT_ID) Long productId,
+                      @ModelAttribute(BASKET) Basket basket) {
+        basket.add(productService.findById(productId));
+        System.out.println(basket.getSize());
+        return "redirect:/";
     }
-    @PostMapping("/basket")
-    public String add(ProductDto productDto) {
-        basket.add(productDto);
-        return  "redirect:/";
+
+    @DeleteMapping("/basket/remove")
+    public String remove(@ModelAttribute(PRODUCT_ID) Long productId,
+                         @ModelAttribute(BASKET) Basket basket) {
+        basket.remove(productService.findById(productId));
+        System.out.println(basket.getSize());
+        return REDIRECT_CLIENT_ORDER_NEW;
     }
 }

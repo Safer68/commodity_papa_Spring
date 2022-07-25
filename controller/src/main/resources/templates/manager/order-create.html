@@ -33,7 +33,7 @@
                                 <input class="form-control" type="tel" th:field="*{client.phoneNumber}" name="type"
                                        placeholder="Phone"></label>
                             <label class="col-sm-2 col-form-label">Эл. адрес<br>
-                                <input class="form-control" type="email" th:field="*{client.phoneNumber}" name="type"
+                                <input class="form-control" type="email" th:field="*{client.email}" name="type"
                                        placeholder="email"></label>
                         </div>
                         <h4>Доставка <span class="g-main__subtitle">(
@@ -46,16 +46,26 @@
                             </td>
                             )</span></h4>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Город<br>
+                            <label class="col-sm-3 col-form-label">Номер отслеживания<br>
+                                <input class="form-control" type="text" th:field="*{order.trackNumber}" name="type"
+                                       placeholder="Номер отслеживания"></label>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-2 col-form-label">Город<br>
                                 <input class="form-control" type="text" th:field="*{address.city}" name="type"
                                        placeholder="Город"></label>
                             <label class="col-sm-2 col-form-label">Ул.<br>
                                 <input class="form-control" type="text" th:field="*{address.street}" name="type"
                                        placeholder="Улица"></label>
-                            <label class="col-sm-3 col-form-label">Дом.<br>
-                                <input type="text" class="form-control" value="-"></label>
+                            <label class="col-sm-2 col-form-label">Дом.<br>
+                                <input type="text" class="form-control" th:field="*{address.house}"
+                                       placeholder="Дом."></label>
                             <label class="col-sm-2 col-form-label">Корп.<br>
-                                <input type="text" class="form-control" value="-"></label>
+                                <input type="text" class="form-control" th:field="*{address.building}"
+                                       placeholder="Корп."></label>
+                            <label class="col-sm-2 col-form-label">Кв.<br>
+                                <input type="text" class="form-control" th:field="*{address.appt}"
+                                       placeholder="Кв."></label>
                             <label class="col-sm-2 col-form-label">Индекс<br>
                                 <input class="form-control" type="text" th:field="*{address.postalCode}" name="type"
                                        placeholder="Индекс"></label>

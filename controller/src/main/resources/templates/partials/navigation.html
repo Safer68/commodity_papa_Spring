@@ -73,9 +73,23 @@
 
         <ul class="nav d-flex align-items-center">
             <li class="g-header__nav-item dropdown">
+                <h5 class=" nav-link" sec:authentication="name">userName</h5>
+            </li>
+            <li class="g-header__nav-item dropdown">
+
+                <a class="g-header__nav-link nav-link d-flex active align-items-center"
+                   href="/client/order/new" role="button">
+                    <i class="g-header__icon far bi bi-cart">
+                        <span class="g-header__alert badge-success badge-pill">
+                            <div th:text="${basket.size}">1</div>
+                        </span>
+                    </i>
+                </a>
+            </li>
+
+            <li class="g-header__nav-item dropdown">
                 <a class="g-header__nav-link nav-link dropdown-toggle d-flex active align-items-center"
                    data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <h5 sec:authentication="name">userName</h5>
                     <i class="g-header__icon g-header__icon--caret fas fa-caret-down"></i>
                 </a>
                 <div class="g-notification dropdown-menu dropdown-menu-right">
@@ -125,3 +139,76 @@
         </ul>
     </div>
 </nav>
+
+
+<div class="modal fade" th:fragment="client" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form name="validation" th:method="PATCH" th:action="@{/client/update}" onsubmit="return validateForm()"
+                  enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">Фамилия<br>
+                            <input class="form-control" type="text" th:field="*{person.surname}" name="surname" required placeholder="5"></label>
+                        <label class="col-sm-2 col-form-label">Имя<br>
+                            <input class="form-control" type="text" th:field="*{person.name}"></label>
+                        <label class="col-sm-3 col-form-label">Отчество<br>
+                            <input class="form-control" type="text" th:field="*{person.patronymic}"></label>
+                        <label class="col-sm-2 col-form-label">Телефон<br>
+                            <input class="form-control" type="text" th:field="*{person.phoneNumber}"></label>
+                        <label class="col-sm-2 col-form-label">Эл. адрес<br>
+                            <input class="form-control" type="text" th:field="*{person.email}"></label>
+                    </div>
+                    <h5>Адрес доставки</h5>
+                    <div class="mb-3 row">
+                        <label class="col-sm-2 col-form-label">Город<br>
+                            <input class="form-control" type="text" th:field="*{person.address.city}"></label>
+                        <label class="col-sm-2 col-form-label">Ул.<br>
+                            <input class="form-control" type="text" th:field="*{person.address.street}"></label>
+                        <label class="col-sm-2 col-form-label">Дом<br>
+                            <input class="form-control" type="text" th:field="*{person.address.house}"></label>
+                        <label class="col-sm-2 col-form-label">Корп.<br>
+                            <input class="form-control" type="text" th:field="*{person.address.building}"></label>
+                        <label class="col-sm-2 col-form-label">кв.<br>
+                            <input class="form-control" type="text" th:field="*{person.address.appt}"></label>
+                        <label class="col-sm-2 col-form-label">Индекс<br>
+                            <input class="form-control" type="text" th:field="*{person.address.postalCode}"></label>
+                        <input type="hidden" th:value="*{person.user.id}" th:field="*{person.user.id}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function validateForm() {
+
+        let y = document.forms["validation"]["surname"].value;
+        if (y === "") {
+            alert("Введите масть лошади");
+            return false;
+        }
+
+        let x = document.forms["validation"]["age"].value;
+        if (x < 1 || x > 30 || (typeof x !== 'number' && isNaN(x))) {
+            alert("Введите возраст правильно");
+            return false;
+        }
+
+        let z = document.forms["validation"]["price"].value;
+        if (z < 3000 || z > 100000 || (typeof z !== 'number' && isNaN(z))) {
+            alert("Введите цену правильно");
+            return false;
+        }
+    }
+</script>

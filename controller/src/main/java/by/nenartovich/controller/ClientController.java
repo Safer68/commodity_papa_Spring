@@ -2,67 +2,70 @@ package by.nenartovich.controller;
 
 
 import by.nenartovich.*;
-import by.nenartovich.dto.*;
+import by.nenartovich.dto.ClientDto;
+import by.nenartovich.dto.OrderDto;
+import by.nenartovich.dto.ProductDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/client")
-@SessionAttributes({"person", "parameter", "filter"})
+@SessionAttributes({"person", "parameter", "filter", "basket"})
 public class ClientController {
-
-    private final ManagerService managerService;
+    private static final String FILTER = "filter";
+    private static final String PERSON = "person";
+    private static final String REDIRECT_CLIENT_CATALOG = "redirect:/client/catalog";
+    private static final String ORDER = "order";
+    private static final String DELIVERYS = "deliverys";
+    private static final String BASKET = "basket";
+    private static final String REDIRECT_CLIENT_ORDERS = "redirect:/client/orders";
     private final OrderService orderService;
     private final ClientService clientService;
     private final DeliveryService deliveryService;
     private final ProductService productService;
 
     @GetMapping
-    public String getOrders(@ModelAttribute("parameter") Parameter parameter,
-                            @ModelAttribute("filter") OrderFilter orderFilter,
-                            @ModelAttribute("person") ClientDto clientDto) {
-        System.out.println(clientDto);
+    public String getOrders(@ModelAttribute(FILTER) OrderFilter orderFilter,
+                            @ModelAttribute(PERSON) ClientDto clientDto) {
         orderFilter.setClientName(clientDto.getName());
-        return "redirect:/client/orders";
+        return REDIRECT_CLIENT_CATALOG;
     }
 
-    /*@GetMapping("/order/new")
-    public String newOrder(Model model) {
+    @GetMapping("/order/new")
+    public String newOrder(@ModelAttribute(PERSON) ClientDto clientDto,
+                           Model model) {
         OrderDto orderDto = new OrderDto();
-        ClientDto clientDto = new ClientDto();
-        AddressDto addressDto = new AddressDto();
-        model.addAttribute("order", orderDto);
-        model.addAttribute("client", clientDto);
-        model.addAttribute("address", addressDto);
-        model.addAttribute("deliverys", deliveryService.findAllDeliveryDto());
-        model.addAttribute("products", productService.findAllProductDto());
-        return "/manager/order-create";
-    }*/
+        orderDto.setClient(clientDto);
+        orderDto.setAddressDelivery(clientDto.getAddress());
+        model.addAttribute(ORDER, orderDto);
+        model.addAttribute(DELIVERYS, deliveryService.findAllDeliveryDto());
+        return "/client/order-create";
+    }
 
-   /* @PostMapping("/orders")
-    public String create(@ModelAttribute("order") OrderDto orderDto,
-                         @RequestParam("answerList") List<Long> answerList,
-                         @ModelAttribute("address") AddressDto addressDto,
-                         @ModelAttribute("client") ClientDto clientDto, Principal principal) {
-        List<ProductDto> productDtos = answerList.stream()
-                .map(productService::findById)
-                .collect(toList());
-        ManagerDto managerDto = managerService.findByName(principal.getName());
-        clientDto.setAddress(addressDto);
-        orderDto.setClient(clientService.save(clientDto));
-        orderDto.setProducts(productDtos);
-        orderDto.setManager(managerDto);
+    @PostMapping("/orders")
+    public String create(@ModelAttribute(ORDER) OrderDto orderDto,
+                         @ModelAttribute(BASKET) Basket basket, Principal principal) {
+        orderDto.setProducts(basket.getBasket());
+        orderDto.setStatusOrder(StatusOrder.PENDING_PROCESSING);
+        orderDto.setClient(clientService.findByName(principal.getName()));
+        orderDto.setPrice(basket.getBasket().stream()
+                .mapToDouble(ProductDto::getPrice)
+                .sum());
         orderService.save(orderDto);
-        return "redirect:/manager/orders";
-    }*/
+        basket.clear();
+        return REDIRECT_CLIENT_ORDERS;
+    }
+
+    @PatchMapping("/update")
+    public String updateClient(@ModelAttribute(PERSON) ClientDto clientDto) {
+        clientService.updateClient(clientDto);
+        return REDIRECT_CLIENT_ORDERS;
+    }
 
     @ModelAttribute("person")
     public ClientDto populatePerson(Principal principal) {
@@ -77,5 +80,10 @@ public class ClientController {
     @ModelAttribute("filter")
     public OrderFilter populateFilter() {
         return OrderFilter.builder().build();
+    }
+
+    @ModelAttribute("basket")
+    public Basket populateBasket() {
+        return Basket.builder().build();
     }
 }
