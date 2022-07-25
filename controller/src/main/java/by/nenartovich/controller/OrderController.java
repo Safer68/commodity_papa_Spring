@@ -25,8 +25,6 @@ public class OrderController {
     private static final String PERSON = "person";
     private static final String ORDERS = "orders";
     private static final String ORD = "ord";
-    private static final String PARAMETER1 = "parameter";
-    private static final String FILTER1 = "filter";
     private static final String ID = "id";
     private static final String ORDER = "order";
     private static final String REDIRECT_MANAGER_ORDERS = "redirect:/manager/orders";
