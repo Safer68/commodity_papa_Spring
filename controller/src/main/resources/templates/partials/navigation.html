@@ -141,7 +141,8 @@
 </nav>
 
 
-<div class="modal fade" th:fragment="client" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" th:fragment="client" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -150,11 +151,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form th:method="PATCH" th:action="@{/client/update}" enctype="multipart/form-data">
+            <form name="validation" th:method="PATCH" th:action="@{/client/update}" onsubmit="return validateForm()"
+                  enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">Фамилия<br>
-                            <input class="form-control" type="text" th:field="*{person.surname}"></label>
+                            <input class="form-control" type="text" th:field="*{person.surname}" name="surname" required placeholder="5"></label>
                         <label class="col-sm-2 col-form-label">Имя<br>
                             <input class="form-control" type="text" th:field="*{person.name}"></label>
                         <label class="col-sm-3 col-form-label">Отчество<br>
@@ -188,3 +190,25 @@
         </div>
     </div>
 </div>
+<script>
+    function validateForm() {
+
+        let y = document.forms["validation"]["surname"].value;
+        if (y === "") {
+            alert("Введите масть лошади");
+            return false;
+        }
+
+        let x = document.forms["validation"]["age"].value;
+        if (x < 1 || x > 30 || (typeof x !== 'number' && isNaN(x))) {
+            alert("Введите возраст правильно");
+            return false;
+        }
+
+        let z = document.forms["validation"]["price"].value;
+        if (z < 3000 || z > 100000 || (typeof z !== 'number' && isNaN(z))) {
+            alert("Введите цену правильно");
+            return false;
+        }
+    }
+</script>
