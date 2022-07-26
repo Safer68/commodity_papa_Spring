@@ -122,13 +122,13 @@
                     </form>
                     <form th:method="POST" th:action="@{/manager/orders/SMS/{id}(id=${order.id})}">
                         <div class="form-group">
-                            <label for="exampleFormControlTextarea">Описание</label>
+                            <label for="exampleFormControlTextarea">SMS–оповещение</label>
                             <textarea class="form-control " readonly th:value="*{order.smsSending}"
                                       th:field="*{order.smsSending}"
                                       id="exampleFormControlTextarea"
                                       rows="10"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Отправить SMS</button>
                     </form>
                 </section>
             </div>
@@ -139,25 +139,5 @@
     <span class="e-site-emphasize">Commodity Papa</span>
 </footer>
 <script th:src="@{/js/custom.js}"></script>
-
-<div class="modal fade" id="userForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="${pageContext.request.contextPath}/managerPage" method="post">
-                <div class="modal-body">
-                    Name <input value="${UserName.name}" name="newName" class='lf--input'
-                                type="Name"><br><br>
-                    <input type="hidden" name="update" value="update"/>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 </body>
 </html>

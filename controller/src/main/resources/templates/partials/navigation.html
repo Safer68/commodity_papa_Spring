@@ -19,7 +19,7 @@
                 <div class="g-notification dropdown-menu dropdown-menu-right">
                     <button class="dropdown-item"
                             data-bs-toggle="modal"
-                            data-bs-target="#userForm">
+                            data-bs-target="#userManagerForm">
                         Личные данные
                     </button>
                     <div class="g-notification__divider dropdown-divider"></div>
@@ -151,12 +151,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form name="validation" th:method="PATCH" th:action="@{/client/update}" onsubmit="return validateForm()"
+            <form th:method="PATCH" th:action="@{/client/update}"
                   enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">Фамилия<br>
-                            <input class="form-control" type="text" th:field="*{person.surname}" name="surname" required placeholder="5"></label>
+                            <input class="form-control" type="text" th:field="*{person.surname}" name="surname"></label>
                         <label class="col-sm-2 col-form-label">Имя<br>
                             <input class="form-control" type="text" th:field="*{person.name}"></label>
                         <label class="col-sm-3 col-form-label">Отчество<br>
@@ -190,25 +190,24 @@
         </div>
     </div>
 </div>
-<script>
-    function validateForm() {
 
-        let y = document.forms["validation"]["surname"].value;
-        if (y === "") {
-            alert("Введите масть лошади");
-            return false;
-        }
+<div class="modal fade" th:fragment="manager" id="userManagerForm" tabindex="-1" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="#" method="get">
+                <div class="modal-body">
+                    Фамилия<input class="form-control" type="text" name="surname">
+                    Имя<input class="form-control" type="text" name="surname">
+                    Отчество<input class="form-control" type="text name="surname>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-        let x = document.forms["validation"]["age"].value;
-        if (x < 1 || x > 30 || (typeof x !== 'number' && isNaN(x))) {
-            alert("Введите возраст правильно");
-            return false;
-        }
-
-        let z = document.forms["validation"]["price"].value;
-        if (z < 3000 || z > 100000 || (typeof z !== 'number' && isNaN(z))) {
-            alert("Введите цену правильно");
-            return false;
-        }
-    }
-</script>

@@ -45,7 +45,6 @@
                             <h4>Доставка <span class="g-main__subtitle">(
                             <td>
                                 <select th:field="*{order.delivery.id}">
-                                   <option selected value=""></option>
                                     <option th:each="deliver : ${deliverys}" th:value="${deliver.id}"
                                             th:text="${deliver.name}">
                                     </option>
