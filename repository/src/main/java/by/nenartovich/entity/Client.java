@@ -39,7 +39,7 @@ public class Client {
     private Address address;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    private Set<Order> orders = new java.util.LinkedHashSet<>();
+    private Set<Order> orders;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
