@@ -31,7 +31,7 @@
     <changeSet id="9" author="Nenartovich" failOnError="true" context="test">
         <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--09-initial-schema-order_products.sql"/>
     </changeSet>
-    <!--<changeSet id="10" author="Nenartovich" failOnError="true" context="test">
-        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21&#45;&#45;10-test-data.sql"/>
-    </changeSet>-->
+    <changeSet id="10" author="Nenartovich" failOnError="true" context="test">
+        <sqlFile path="db/liquibase/v-0.1.0/2022_07_21--10-test-data.sql"/>
+    </changeSet>
 </databaseChangeLog>

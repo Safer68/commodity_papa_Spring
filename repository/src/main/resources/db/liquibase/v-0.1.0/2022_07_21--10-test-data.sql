@@ -22,16 +22,16 @@ VALUES ('CLIENT');
 insert into user_role(user_id, role_id)
 VALUES (1, 1);
 insert into user_role(user_id, role_id)
-VALUES (2, 2);
+VALUES (11, 11);
 insert into user_role(user_id, role_id)
-VALUES (3, 3);
+VALUES (21, 21);
 
 insert into manager(name, user_id, patronymic, surname)
-VALUES ('Василий', 2, 'Иванович', 'Петров');
+VALUES ('Василий', 11, 'Иванович', 'Петров');
 
 insert into client(name, patronymic, surname, phone_number, city, street, house, building, appt, postal_code, email,
                    user_id)
-VALUES ('Леонид', 'Васильевич', 'Мороз', '+375257056517', 'Минск', 'Ленина', 80, 1, 45, 222310, 'lev@mail.ru', 3);
+VALUES ('Леонид', 'Васильевич', 'Мороз', '+375257056517', 'Минск', 'Ленина', 80, 1, 45, 222310, 'lev@mail.ru', 21);
 
 insert into product(active, name, description, price, section,image)
 VALUES (true, 'Ракетка Sponeta HighTech',
@@ -76,27 +76,3 @@ insert into orders(date_of_change, date_of_creation, price,
 VALUES ('2022-06-05 00:00:00', '2022-06-10 00:00:00', 627.5, 'Получен', 'PC051558650BY', 1, 1, 'Минск',
         'Ленина', 80, 1, 45, 222310, 1);
 
-insert into orders(date_of_change, date_of_creation, price,
-                   status_order, track_number, client_id, delivery_id, city, street, house, building, appt, postal_code,
-                   manager_id)
-VALUES ('2022-06-17 00:00:00', '2022-06-25 00:00:00', 49.5, 'Возврат', '45', 1, 2, 'Минск',
-        'Ленина', 80, 1, 45, 222310, 1);
-
-insert into orders(date_of_change, date_of_creation, price,
-                   status_order, track_number, client_id, delivery_id, city, street, house, building, appt, postal_code,
-                   manager_id)
-VALUES ('2022-06-21 00:00:00', '2022-07-02 00:00:00', 578, 'Возврат', 'PC051558535BY', 1, 1, 'Минск',
-        'Ленина', 80, 1, 45, 222310, 1);
-
-insert into order_products(order_id, products_id)
-VALUES (1,1);
-insert into order_products(order_id, products_id)
-VALUES (1,2);
-insert into order_products(order_id, products_id)
-VALUES (1,3);
-insert into order_products(order_id, products_id)
-VALUES (2,3);
-insert into order_products(order_id, products_id)
-VALUES (3,1);
-insert into order_products(order_id, products_id)
-VALUES (3,2);
