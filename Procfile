@@ -1,1 +1,1 @@
-web: java -jar target/commodity_papa-0.0.1-SNAPSHOT.jar
+web: java -jar controller/target/commodity_papa-0.0.1-SNAPSHOT.jar
