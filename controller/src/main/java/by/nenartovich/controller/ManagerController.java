@@ -32,7 +32,7 @@ public class ManagerController {
     private static final String ADDRESS = "address";
     private static final String DELIVERYS = "deliverys";
     private static final String PRODUCTS = "products";
-    private static final String MANAGER_ORDER_CREATE = "/manager/order-create";
+    private static final String MANAGER_ORDER_CREATE = "manager/order-create";
     private static final String PRODUCT_LIST = "productList";
     private final ManagerService managerService;
     private final OrderService orderService;

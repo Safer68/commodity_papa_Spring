@@ -28,7 +28,7 @@ public class OrderController {
     private static final String ID = "id";
     private static final String ORDER = "order";
     private static final String REDIRECT_MANAGER_ORDERS = "redirect:/manager/orders";
-    private static final String CLIENT_ORDER = "/client/order";
+    private static final String CLIENT_ORDER = "client/order";
     private final OrderService orderService;
     private final SimpleClient simpleClient;
 
