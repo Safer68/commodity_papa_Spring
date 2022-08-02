@@ -25,7 +25,7 @@ public class CatalogController {
     private static final String MANAGER_CATALOG = "/manager/catalog";
     private static final String PRODUCT = "product";
     private static final String MANAGER_PRODUCT = "/manager/product";
-    private static final String CLIENT_CATALOG = "/client/catalog";
+    private static final String CLIENT_CATALOG = "client/catalog";
     private static final String BASKET = "basket";
     private static final String ID = "id";
     private static final String CLIENT_PRODUCT = "/client/product";
