@@ -42,7 +42,7 @@ public class OrderController {
         parameter.setGetTotalElements(page.getTotalElements());
         model.addAttribute(ORDERS, page);
         model.addAttribute(ORD, new OrderDto());
-        return "/manager/orders";
+        return "manager/orders";
     }
 
     @GetMapping("/client/orders")
@@ -53,14 +53,14 @@ public class OrderController {
         parameter.setGetTotalPages(page.getTotalPages());
         parameter.setGetTotalElements(page.getTotalElements());
         model.addAttribute(ORDERS, page);
-        return "/client/orders";
+        return "client/orders";
     }
 
     @GetMapping("/manager/orders/{id}")
     public String getOrdersManager(Model model, @PathVariable(ID) long id) {
         OrderDto orderDto = orderService.findById(id);
         model.addAttribute(ORDER, orderDto);
-        return "/manager/order";
+        return "manager/order";
     }
 
     @PatchMapping("/manager/orders/{id}")
