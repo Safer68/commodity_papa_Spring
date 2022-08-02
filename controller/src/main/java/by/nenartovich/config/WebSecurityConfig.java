@@ -30,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").hasAnyAuthority("ADMIN", "MANAGER", "CLIENT")
                 .antMatchers("/", "/manager/**").hasAnyAuthority("MANAGER")
                 .antMatchers("/", "/client/**").hasAnyAuthority("CLIENT", "MANAGER")
+                .antMatchers("/", "/rest-catalog/**").hasAnyAuthority("CLIENT", "MANAGER")
                 .antMatchers("/sms-rest").permitAll()
                 .antMatchers("/index").permitAll()
                 .and()
