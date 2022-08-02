@@ -23,8 +23,7 @@ public class IndexController {
     private static final String MANAGER = "MANAGER";
     private static final String REDIRECT_MANAGER = "redirect:/manager";
     private static final String CLIENT = "CLIENT";
-    /*private static final String REDIRECT_CLIENT = "redirect:/client";*/
-    private static final String REDIRECT_CLIENT = "redirect:/rest-catalog/get";
+    private static final String REDIRECT_CLIENT = "redirect:/client";
     private static final String LOGIN = "login";
     private final UserService userService;
 
