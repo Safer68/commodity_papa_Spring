@@ -48,7 +48,7 @@ public class CatalogController {
     }
 
     @GetMapping("/client/catalog")
-    public String getProductClient(@ModelAttribute(BASKET) Basket basket, Model model) {
+    public String getProductClient(/*@ModelAttribute(BASKET) Basket basket, */Model model) {
         List<ProductDto> productDtoList = productService.getByActive(true);
         model.addAttribute(PRODUCTS, productDtoList);
         return CLIENT_CATALOG;
