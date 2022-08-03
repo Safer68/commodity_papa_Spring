@@ -13,7 +13,7 @@ import java.util.List;
 public class CatalogRestController {
     private final ProductService productService;
     @GetMapping("/get")
-    public List<ProductDto> getProductClient(/*@ModelAttribute(BASKET) Basket basket, Model model*/) {
+    public List<ProductDto> getProductClient() {
         List<ProductDto> productDtoList = productService.getByActive(true);
         return productDtoList;
     }

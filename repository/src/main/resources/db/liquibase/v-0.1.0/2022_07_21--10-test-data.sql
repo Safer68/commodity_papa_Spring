@@ -76,3 +76,29 @@ insert into orders(date_of_change, date_of_creation, price,
 VALUES ('2022-06-05 00:00:00', '2022-06-10 00:00:00', 627.5, 'Получен', 'PC051558650BY', 1, 1, 'Минск',
         'Ленина', 80, 1, 45, 222310, 1);
 
+
+
+insert into orders(date_of_change, date_of_creation, price,
+                   status_order, track_number, client_id, delivery_id, city, street, house, building, appt, postal_code,
+                   manager_id)
+VALUES ('2022-06-17 00:00:00', '2022-06-25 00:00:00', 49.5, 'Возврат', '45', 1, 11, 'Минск',
+        'Ленина', 80, 1, 45, 222310, 1);
+
+insert into orders(date_of_change, date_of_creation, price,
+                   status_order, track_number, client_id, delivery_id, city, street, house, building, appt, postal_code,
+                   manager_id)
+VALUES ('2022-06-21 00:00:00', '2022-07-02 00:00:00', 578, 'Возврат', 'PC051558535BY', 1, 1, 'Минск',
+        'Ленина', 80, 1, 45, 222310, 1);
+
+insert into order_products(order_id, products_id)
+VALUES (1,1);
+insert into order_products(order_id, products_id)
+VALUES (1,11);
+insert into order_products(order_id, products_id)
+VALUES (1,21);
+insert into order_products(order_id, products_id)
+VALUES (11,21);
+insert into order_products(order_id, products_id)
+VALUES (21,1);
+insert into order_products(order_id, products_id)
+VALUES (21,11);

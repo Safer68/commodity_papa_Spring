@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/sms-rest")
-@RequiredArgsConstructor
 @PropertySource("classpath:smsConfig.properties")
 public class SmsRestController {
     @Value("${login}")

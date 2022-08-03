@@ -8,7 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @EnableFeignClients
-/*@PropertySource("classpath:smsConfig.properties")*/
 public class CommodityPapaApplication {
     public static void main(String[] args) {
         SpringApplication.run(CommodityPapaApplication.class, args);
