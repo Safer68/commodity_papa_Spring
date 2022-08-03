@@ -44,7 +44,7 @@ public class ClientController {
         orderDto.setAddressDelivery(clientDto.getAddress());
         model.addAttribute(ORDER, orderDto);
         model.addAttribute(DELIVERYS, deliveryService.findAllDeliveryDto());
-        return "/client/order-create";
+        return "client/order-create";
     }
 
     @PostMapping("/orders")

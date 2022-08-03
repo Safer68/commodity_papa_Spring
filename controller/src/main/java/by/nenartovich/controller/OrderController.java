@@ -6,7 +6,7 @@ import by.nenartovich.Parameter;
 import by.nenartovich.StatusOrder;
 import by.nenartovich.dto.ManagerDto;
 import by.nenartovich.dto.OrderDto;
-import by.nenartovich.feign.SimpleClient;
+import by.nenartovich.rest.feign.SimpleClient;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class OrderController {
     private static final String ID = "id";
     private static final String ORDER = "order";
     private static final String REDIRECT_MANAGER_ORDERS = "redirect:/manager/orders";
-    private static final String CLIENT_ORDER = "/client/order";
+    private static final String CLIENT_ORDER = "client/order";
     private final OrderService orderService;
     private final SimpleClient simpleClient;
 
@@ -42,7 +42,7 @@ public class OrderController {
         parameter.setGetTotalElements(page.getTotalElements());
         model.addAttribute(ORDERS, page);
         model.addAttribute(ORD, new OrderDto());
-        return "/manager/orders";
+        return "manager/orders";
     }
 
     @GetMapping("/client/orders")
@@ -53,14 +53,14 @@ public class OrderController {
         parameter.setGetTotalPages(page.getTotalPages());
         parameter.setGetTotalElements(page.getTotalElements());
         model.addAttribute(ORDERS, page);
-        return "/client/orders";
+        return "client/orders";
     }
 
     @GetMapping("/manager/orders/{id}")
     public String getOrdersManager(Model model, @PathVariable(ID) long id) {
         OrderDto orderDto = orderService.findById(id);
         model.addAttribute(ORDER, orderDto);
-        return "/manager/order";
+        return "manager/order";
     }
 
     @PatchMapping("/manager/orders/{id}")

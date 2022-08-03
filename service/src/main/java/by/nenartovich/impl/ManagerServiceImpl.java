@@ -13,17 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ManagerServiceImpl implements ManagerService {
     private final ManagerRepository managerRepository;
-    private final OrderRepository orderRepository;
-    private final ClientRepository clientRepository;
     private final ManagerMapper managerMapper;
-    private final OrderMapper orderMapper;
 
-    public ManagerServiceImpl(ManagerRepository managerRepository, OrderRepository orderRepository, ClientRepository clientRepository, ManagerMapper managerMapper, OrderMapper orderMapper) {
+    public ManagerServiceImpl(ManagerRepository managerRepository, ManagerMapper managerMapper) {
         this.managerRepository = managerRepository;
-        this.orderRepository = orderRepository;
-        this.clientRepository = clientRepository;
         this.managerMapper = managerMapper;
-        this.orderMapper = orderMapper;
     }
 
     @Override

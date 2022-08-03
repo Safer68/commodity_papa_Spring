@@ -22,13 +22,13 @@ import java.util.List;
 public class CatalogController {
     private static final String PRODUCTS = "products";
     private static final String PRODUCT_DTO = "productDto";
-    private static final String MANAGER_CATALOG = "/manager/catalog";
+    private static final String MANAGER_CATALOG = "manager/catalog";
     private static final String PRODUCT = "product";
-    private static final String MANAGER_PRODUCT = "/manager/product";
-    private static final String CLIENT_CATALOG = "/client/catalog";
+    private static final String MANAGER_PRODUCT = "manager/product";
+    private static final String CLIENT_CATALOG = "client/catalog";
     private static final String BASKET = "basket";
     private static final String ID = "id";
-    private static final String CLIENT_PRODUCT = "/client/product";
+    private static final String CLIENT_PRODUCT = "client/product";
     private static final String FILE = "file";
     private static final String REDIRECT_MANAGER_CATALOG = "redirect:/manager/catalog";
     private final ProductService productService;

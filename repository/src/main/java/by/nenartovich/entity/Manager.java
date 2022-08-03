@@ -33,5 +33,5 @@ public class Manager {
     private User user;
 
     @OneToMany(mappedBy = "manager", orphanRemoval = true)
-    private List<Order> orders = new ArrayList<>();
+    private List<Order> orders;
 }

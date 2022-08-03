@@ -21,8 +21,7 @@ public class Delivery {
     private Long id;
     @Column(name = "name")
     private String name;
-    /*@OneToMany(mappedBy = "delivery", orphanRemoval = true)*/
     @OneToMany(mappedBy = "delivery", cascade = CascadeType.MERGE)
-    private List<Order> orders = new ArrayList<>();
+    private List<Order> orders;
 
 }
