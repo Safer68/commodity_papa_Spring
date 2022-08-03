@@ -16,11 +16,10 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 public class Basket {
-    private static final int INT = 0;
+    @Builder.Default
+    private Integer size = 0;
     @Builder.Default
     private List<ProductDto> basket = new ArrayList<>();
-    @Builder.Default
-    private Integer size = INT;
 
     public void add(ProductDto productDto) {
         this.basket.add(productDto);

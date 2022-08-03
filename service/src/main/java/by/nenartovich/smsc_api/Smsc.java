@@ -5,19 +5,16 @@ import java.lang.Math;
 
 public class Smsc {
 
-    String SMSC_LOGIN    = "login";     // логин клиента
-    String SMSC_PASSWORD = "password";  // пароль
-    boolean SMSC_HTTPS   = false;         // использовать HTTPS протокол
-    String SMSC_CHARSET  = "utf-8";       // кодировка сообщения: koi8-r, windows-1251 или utf-8 (по умолчанию)
-    boolean SMSC_DEBUG   = false;         // флаг отладки
-    boolean SMSC_POST    = true;         // Использовать метод POST
+    private String SMSC_LOGIN    = "login";     // логин клиента
+    private String SMSC_PASSWORD = "password";  // пароль
+    private boolean SMSC_HTTPS   = false;         // использовать HTTPS протокол
+    private String SMSC_CHARSET  = "utf-8";       // кодировка сообщения: koi8-r, windows-1251 или utf-8 (по умолчанию)
+    private boolean SMSC_DEBUG   = false;         // флаг отладки
+    private boolean SMSC_POST    = true;         // Использовать метод POST
 
     /**
      * constructors
      */
-    public Smsc() {
-    }
-
     public Smsc(String login, String password) {
         SMSC_LOGIN    = login;
         SMSC_PASSWORD = password;

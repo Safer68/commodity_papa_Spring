@@ -6,7 +6,7 @@ import by.nenartovich.Parameter;
 import by.nenartovich.StatusOrder;
 import by.nenartovich.dto.ManagerDto;
 import by.nenartovich.dto.OrderDto;
-import by.nenartovich.feign.SimpleClient;
+import by.nenartovich.rest.feign.SimpleClient;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
