@@ -18,11 +18,6 @@ public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryMapper deliveryMapper;
 
     @Override
-    public DeliveryDto findById(Long deliveryId) {
-        return deliveryMapper.deliveryToDeliveryDto(deliveryRepository.getReferenceById(deliveryId));
-    }
-
-    @Override
     public List<DeliveryDto> findAllDeliveryDto() {
         return deliveryRepository.findAll().stream()
                 .map(deliveryMapper::deliveryToDeliveryDto)
